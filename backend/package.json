@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ClemLG/Projet07_Groupomania/issues"
   },
-  "homepage": "https://github.com/ClemLG/Projet07_Groupomania#readme"
+  "homepage": "https://github.com/ClemLG/Projet07_Groupomania#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }

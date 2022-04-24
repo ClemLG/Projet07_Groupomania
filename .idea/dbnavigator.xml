@@ -28,21 +28,11 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="2716c990-e8e2-4f66-ab69-5ca227c18a4c">
-      <console name="Groupomania MySQL" type="STANDARD" schema="groupomania" session="Main"><![CDATA[-- Requêtes liées aux tables
-SHOW TABLES;
-
-CREATE TABLE `g_users`
-(
-    `id_user` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `user_username` VARCHAR(100),
-    `user_email` VARCHAR (255) NOT NULL UNIQUE
-);]]></console>
+      <console name="Groupomania MySQL" type="STANDARD" schema="groupomania" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="2716c990-e8e2-4f66-ab69-5ca227c18a4c" object-ref="consoles/Groupomania MySQL" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="2716c990-e8e2-4f66-ab69-5ca227c18a4c" />

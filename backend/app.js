@@ -1,6 +1,8 @@
 // Import
 const express = require('express')
 
+const path = require('path')
+
 // Appel de la méthode "express" pour créer l'application
 const app = express()
 

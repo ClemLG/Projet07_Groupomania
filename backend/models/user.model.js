@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/db")
-const bcrypt = require('bcrypt')
 
 const UserModel = sequelize.define("user", {
 

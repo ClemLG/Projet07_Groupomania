@@ -1,17 +1,17 @@
 // Imports
 const express = require('express')
 const userCtrl = require('../controllers/user.controller')
+const auth = require("../Middlewares")
 
 // Création du routeur
 const router = express.Router()
 
 // Définition des routes
-router.post('/register', userCtrl.register)
-router.post('/login', userCtrl.login)
-router.get('/logout', userCtrl.logout)
-router.get('/unregister/:user_id', userCtrl.unregister)
+
+router.get('/:id', userCtrl.getOneUser)
+router.get('/image/:id', userCtrl.getProfilPicture)
 router.put('/profile', userCtrl.updateProfile)
 
 
-//Exports
+
 module.exports = router

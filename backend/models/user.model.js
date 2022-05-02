@@ -21,9 +21,10 @@ const UserModel = sequelize.define("user", {
         allowNull: false,
     },
 
-    roles: {
-        type: Sequelize.TEXT,
-        allowNull: false
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+
     },
 
     active: {

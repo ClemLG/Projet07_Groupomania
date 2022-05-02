@@ -2,7 +2,7 @@ const sequelize = require('../config/db')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-// Import des modeles
+// Import du model user
 const User = require('../models/user.model')
 
 // Implementation des routes
@@ -18,7 +18,6 @@ exports.register = (req, res) => {
         requestPayload.username === undefined
         || requestPayload.email === undefined
         || requestPayload.password === undefined
-        || requestPayload.confirm === undefined
     ) {
         return res.status(400).json({error: 'missing fields'})
     }
@@ -48,24 +47,15 @@ exports.register = (req, res) => {
         throw "Invalid password"
     }
 
-    if (requestPayload.confirm !== requestPayload.password) {
-        throw "Confirm doesn't match password"
-    }
 
-    //Enregistrement et synchronisation avec la base de données
-    sequelize.sync()
-        .then(() => {
-            res.status(201).json({ message: 'User registered successfully !'})
-            return User.create({
-                email: `${requestPayload.email}`,
-                password: bcrypt.hashSync(`${requestPayload.password}`, 10),
-                roles: `${JSON.stringify(['ROLE_USER'])}`,
-                username: `${requestPayload.username}`
-            })
-        })
-        .catch((error) => {
-            res.status(400).json({ error })
-        })
+    //Enregistrement d'un nouvel user dans la table "users"
+    return User.create({
+        email: `${requestPayload.email}`,
+        password: bcrypt.hashSync(`${requestPayload.password}`, 10),
+        username: `${requestPayload.username}`
+    })
+        .then(() => res.status(201).json({message: 'User Created !'}))
+        .catch(error => res.status(400).json({error}))
 }
 
 // Connexion
@@ -113,20 +103,5 @@ exports.login = (req, res) => {
         .catch(err => {
             res.status(500).send({message: err.message })
         })
-}
-
-// Deconnexion
-exports.logout = (req, res) => {
-    try{
-        res.clearCookie("jwt");
-        res.status(200).json("Deconnexion réussie")
-    } catch {
-        res.status(401).json({ message: "erreur lors de la déconnnexion" })
-    }
-}
-
-// Désactivation du compte
-exports.unregister = (req, res) => {
-//
 }
 

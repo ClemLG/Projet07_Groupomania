@@ -1,7 +1,13 @@
 // Import
 const express = require('express')
-
+const sequelize = require('../backend/config/db')
 const path = require('path')
+
+
+//Enregistrement et synchronisation avec la base de données
+sequelize.sync()
+    .then(() => console.log('Connexion à la base de données MYSQL réussie !'))
+    .catch((error) => console.log('Connexion à la base de données MYSQL échouée !' + error))
 
 // Appel de la méthode "express" pour créer l'application
 const app = express()

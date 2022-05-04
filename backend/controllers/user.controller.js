@@ -6,6 +6,15 @@ const User = require('../models/user.model')
 
 // Modification du profil
 
+exports.getOneUser = (req, res) => {
+    //Récupérer l'utlisateur dans la base de données
+    User.findOne({ where: { id: req.params.id }})
+        .then((user) => res.status(200).json(user))
+        .catch(error => res.status(404).json({ error }))
+}
+exports.getProfilePicture = (req, res) => {}
+
+
 exports.updateProfile = (req, res) => {
     try {
         User.update({

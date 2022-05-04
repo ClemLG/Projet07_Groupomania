@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 
 //Enregistrement des routes
 app.use(require('./routes/auth.router'))
+app.use(require('./routes/user.router'))
 
 // Export de l'application
 module.exports = app

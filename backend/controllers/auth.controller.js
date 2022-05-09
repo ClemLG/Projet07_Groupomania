@@ -55,7 +55,9 @@ exports.register = (req, res) => {
         username: `${requestPayload.username}`
     })
         .then(() => res.status(201).json({message: 'User Created !'}))
+        console.log('Utilisateur créé')
         .catch(error => res.status(400).json({error}))
+        console.log('Erreur de création user')
 }
 
 // Connexion
@@ -87,7 +89,10 @@ exports.login = (req, res) => {
 
             // Sinon on renvoi un status 200 OK avec un objet JSON qui contient l'identifiant de l'utilisateur dans la base ainsi qu'un token
             let token = jwt.sign(
-                { id: user.id },
+                {
+                    id: user.id,
+                    isAdmin: user.isAdmin
+                },
                 'RANDOM_SECRET_TOKEN',
                 {expiresIn: "24h"}
                 )

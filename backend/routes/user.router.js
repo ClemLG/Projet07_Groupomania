@@ -10,10 +10,10 @@ const router = express.Router()
 
 // Définition des routes
 
-router.get('/:id', auth, userCtrl.getOneUser)
-router.get('/image/:id', auth, userCtrl.getProfilePicture)
-router.put('/profile', auth, multer, userCtrl.updateProfile)
-router.get('/unregister/:id', userCtrl.unregister)
+router.get('/users/:id', auth, userCtrl.getOneUser)
+router.get('/users', auth, userCtrl.getAllUsers)
+router.put('/users/:id', auth, multer, userCtrl.updateProfile)
+router.delete('/users/:id', auth, userCtrl.unregister)
 
 
 

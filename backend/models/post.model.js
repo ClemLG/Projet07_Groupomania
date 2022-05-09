@@ -1,4 +1,3 @@
-/*
 const Sequelize = require("sequelize")
 const sequelize = require("../config/db")
 
@@ -10,7 +9,7 @@ const PostModel = sequelize.define("post", {
         primaryKey: true
     },
 
-    idUser: {
+    userId: {
         type: Sequelize.INTEGER,
         references: {
             model: 'users',
@@ -34,4 +33,4 @@ const PostModel = sequelize.define("post", {
 
 })
 
-module.exports = PostModel*/
+module.exports = PostModel

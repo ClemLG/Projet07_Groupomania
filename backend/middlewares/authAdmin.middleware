@@ -1,0 +1,13 @@
+// Imports de jwt pour verifier les tokens
+const jwt = require("jsonwebtoken");
+
+const isAdmin = (req) => {
+    //On récupère le token
+    const token = req.headers.authorization.split(' ')[1]
+    // On le decode
+    const decoded = jwt.decode(token)
+// On vient récuperer l'information de isAdmin dans le payload
+    return decoded.isAdmin
+}
+
+module.exports = isAdmin

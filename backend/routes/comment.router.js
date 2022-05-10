@@ -1,17 +1,21 @@
 // Imports
 const express = require('express')
-const router = express.Router()
+const commentCtrl = require('../controllers/comment.controller')
 const auth = require('../middlewares/auth.middleware')
 const authAdmin = require('../middlewares/authAdmin.middleware')
+const multer = require('../middlewares/multer-config')
 
-// Import du model commentaire
-const commentCtrl = require('../controllers/comment.controller')
+// Création du routeur
+const router = express.Router()
 
-
-router.post('/comments', commentCtrl.createComment)
-router.get('/comments', auth, commentCtrl.getComments)
+// Définition des routes CRUD
+router.post('/comments', auth, commentCtrl.createComment)
+router.get('/comments', auth, commentCtrl.getAllComments)
 router.delete('/comments/:id', auth, commentCtrl.deleteComment)
 
 
 // ADMIN
-router.delete('')
+router.delete('/admin/delete/comments/:id', authAdmin, multer, commentCtrl.adminDeleteComment)
+
+// Export
+module.exports = router

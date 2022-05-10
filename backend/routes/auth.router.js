@@ -5,7 +5,7 @@ const authCtrl = require('../controllers/auth.controller')
 // Création du routeur
 const router = express.Router()
 
-// Définition des routes
+// Définition des routes CRUD
 router.post('/register', authCtrl.register)
 router.post('/login', authCtrl.login)
 

@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 app.use(require('./routes/auth.router'))
 app.use(require('./routes/user.router'))
 app.use(require('./routes/post.routes'))
+app.use(require('./routes/comment.router'))
 
 // Export de l'application
 module.exports = app

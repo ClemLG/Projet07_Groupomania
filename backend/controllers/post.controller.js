@@ -11,10 +11,12 @@ const fs = require('fs')
 const Post = require('../models/post.model')
 const User = require('../models/user.model')
 
+// Création de post
 exports.createPost = (req,res) => {
+    console.log(req.headers.authorization)
     // On récupère l'userID dans le token
     const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+    const decodedToken = jwt.verify(token, "RANDOM_SECRET_TOKEN");
     const userId = decodedToken.id;
 
     if(!req.file) {
@@ -27,6 +29,8 @@ exports.createPost = (req,res) => {
             .catch((err) => res.status(500).json(err))
     }
 }
+
+// Récupération de tous les posts
 exports.getAllPosts = (req,res) => {
     Post.findAll({
        order:[[
@@ -43,13 +47,30 @@ exports.getAllPosts = (req,res) => {
             return res.status(500).json(error)
         })
 }
+
+// Récupération d'un post
 exports.getOnePost = (req,res) => {
     console.log("Je passe dans getOnePost");
-    res.status(200).send();
+    res.status(200).send('Je passe dans getOnePost');
 }
-exports.updatePost = (req,res) => {}
-exports.deletePost = (req,res) => {}
-exports.likePost = (req,res) => {}
+
+// Modification de post
+exports.updatePost = (req,res) => {
+    console.log("Je passe dans updatePost");
+    res.status(200).send('Je passe dans updatePost');
+}
+
+// Suppression de post
+exports.deletePost = (req,res) => {
+    console.log("Je passe dans deletePost");
+    res.status(200).send('Je passe dans deletePost');
+}
+
+// Like de post
+exports.likePost = (req,res) => {
+    console.log("Je passe dans likePost");
+    res.status(200).send('Je passe dans likePost');
+}
 
 
 //ADMIN

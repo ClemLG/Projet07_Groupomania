@@ -7,8 +7,9 @@ const multer = require("../middlewares/multer-config")
 // Création du routeur
 const router = express.Router()
 
-// CRUD
+// Définition des routes CRUD
 router.post('/posts', auth, multer, postCtrl.createPost)
+// CETTE ROUTE NE FONCTIONNE ACTUELLEMENT PAS CAR LES ASSOCIATIONS DE MODELS N ONT PAS ETE FAITS
 router.get('/posts', auth, multer, postCtrl.getAllPosts)
 router.get('/posts/:id', auth, postCtrl.getOnePost)
 router.put('/posts/:id', auth, multer, postCtrl.updatePost)

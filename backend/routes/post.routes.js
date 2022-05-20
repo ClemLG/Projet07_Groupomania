@@ -9,7 +9,6 @@ const router = express.Router()
 
 // Définition des routes CRUD
 router.post('/posts', auth, multer, postCtrl.createPost)
-// CETTE ROUTE NE FONCTIONNE ACTUELLEMENT PAS CAR LES ASSOCIATIONS DE MODELS N ONT PAS ETE FAITS
 router.get('/posts', auth, multer, postCtrl.getAllPosts)
 router.get('/posts/:id', auth, postCtrl.getOnePost)
 router.put('/posts/:id', auth, multer, postCtrl.updatePost)
@@ -17,7 +16,7 @@ router.delete('/posts/:id', auth, multer, postCtrl.deletePost)
 
 
 // LIKES
-router.post('/posts/:id/like', auth, postCtrl.likePost)
+router.post('/posts/:id/like', postCtrl.likeDislikePost)
 
 
 // Requete DELETE de l'administrateur pour supprimer un post

@@ -32,44 +32,117 @@ exports.createPost = (req,res) => {
 
 // Récupération de tous les posts
 exports.getAllPosts = (req,res) => {
+    console.log("Je passe dans getAllPosts");
+    // On utilise la methode "findAll" de notre modele pour permettre la recuperation de tous les posts
     Post.findAll({
-       order:[[
-           'createdAt', 'DESC'
-       ]],
-       include:{
-           model: User,
-       }
+        // On précise qu'on veut récupérer les posts de plus récent au plus ancien
+       order:[['createdAt', 'DESC']]
     })
-        .then(posts => {
-            return res.status(200).json(posts)
-        })
-        .catch(error => {
-            return res.status(500).json(error)
-        })
+        .then(posts => {return res.status(200).json(posts)})
+        .catch(error => {return res.status(500).json(error)})
 }
 
 // Récupération d'un post
 exports.getOnePost = (req,res) => {
     console.log("Je passe dans getOnePost");
-    res.status(200).send('Je passe dans getOnePost');
+    // On récupère le post avec l'id fourni dans le parametre de requete
+    Post.findOne({ where: { id: req.params.id }})
+    // Si les deux ID sont similaires on retourne une réponse au serveur 200 avec le post correspondant dans la base de données
+        .then(post => res.status(200).json(post))
+        .catch(error => res.status(404).json({error}))
 }
 
 // Modification de post
 exports.updatePost = (req,res) => {
     console.log("Je passe dans updatePost");
-    res.status(200).send('Je passe dans updatePost');
+    // On récupère le post qu'on souhaite modifier
+    Post.findOne({ where: { id: req.params.id }})
+        // Si on trouve un nouveau fichier image, on modifie avec la nouvelle imageUrl
+        .then(post => {
+            const postObject = req.file ? {
+                ...req.body.post,
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                // Sinon on prends le corps de la requete et on modifie l'id de l'objet qu'on vient de créer pour correspondre à l'id des parametres de requete
+            } : {...req.body}
+            Post.update({...postObject}, { where: { id: req.params.id }})
+                .then(() => res.status(200).json({ message: 'publication à jour !' }))
+                .catch(error => res.status(400).json({ error }))
+        })
 }
 
 // Suppression de post
-exports.deletePost = (req,res) => {
+exports.deletePost = async (req,res) => {
     console.log("Je passe dans deletePost");
-    res.status(200).send('Je passe dans deletePost');
+    try {
+        // Stockage du schéma de données des Posts
+        const post = await Post.findOne({ where: {id : req.params.id }})
+        // Avant la suppression, on vérifie si il y a une image
+        if(post.imageUrl) {
+            // Si oui, on extrait le fichier et pour ca on recupere l'url du post et on le split autour de la chaine de caractères, donc le nom du fichier
+            const filename = post.imageUrl.split("/images")[1]
+            // Avec ce nom de fichier on appelle unlink pour suppr le fichier
+            fs.unlink(`images/${filename}`, () => {
+                Post.destroy({ where: { id: post.id }})
+                res.status(200).json({ message: 'Post supprimé !'})
+            })
+            // Sinon on supprime quand meme le post sans image
+        } else {
+            Post.destroy({ where: { id: post.id } }, { truncate: true })
+            res.status(200).json({ message: 'Post supprimé !'})
+        }
+    } catch(error) {
+        return res.status(500).json({ error: "Erreur Serveur"})
+    }
 }
 
 // Like de post
-exports.likePost = (req,res) => {
-    console.log("Je passe dans likePost");
-    res.status(200).send('Je passe dans likePost');
+exports.likeDislikePost = (req,res) => {
+    // Pour la route READ = Ajout/suppression d'un like / dislike à une sauce
+    // Like présent dans le body
+    let like = req.body.like
+    // On prend le userID
+    let userId = req.body.userId
+    // On prend l'id de la sauce
+    let postId = req.params.id
+
+    // Si il s'agit d'un like
+    if (like === 1) {
+        // On push l'utilisateur et on incrémente le compteur de 1
+        Post.update({ id: postId}, { $push: {usersLiked: userId}, $inc: {likes: +1}})
+            .then(() => res.status(200).json({message: "j'aime ajouté !"}))
+            .catch((error) => res.status(400).json({error}))
+    }
+
+    // S'il s'agit d'un dislike
+    if (like === -1) {
+        //On push l'utilisateur on incremente le compteur de 1
+        Post.update({ id: postId}, {$push: {usersDisliked: userId}, $inc: {dislikes: +1}})
+            .then(() => {res.status(200).json({message: "Dislike ajouté !"})})
+            .catch((error) => res.status(400).json({error}))
+    }
+
+    // Si il s'agit d'annuler un like ou un dislike
+    if (like === 0) {
+        Post.findOne({ id: postId})
+            .then((post) => {
+                // Si il s'agit d'annuler un like
+                if (post.usersLiked.includes(userId)) {
+                    // On pull l'utilisateur on incrémente le compteur de -1
+                    Post.update({ id: postId}, {$pull: {usersLiked: userId}, $inc: {likes: -1}})
+                        .then(() => res.status(200).json({message: 'Like retiré !'}))
+                        .catch((error) => res.status(400).json({error}))
+                }
+
+                // Si il s'agit d'annuler un dislike
+                if (post.usersDisliked.includes(userId)) {
+                    // On pull l'utilisateur on incrémente le compteur de -1
+                    Post.update({ id: postId}, {$pull: {usersDisliked: userId}, $inc: {dislikes: -1}})
+                        .then(() => res.status(200).json({message: 'Dislike retiré !'}))
+                        .catch((error) => res.status(400).json({error}))
+                }
+            })
+            .catch((error) => res.status(404).json({error}))
+    }
 }
 
 

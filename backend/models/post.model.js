@@ -1,22 +1,11 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/db")
 
+// Import model
+const CommentModel = require('./comment.model')
+const UserModel = require('./user.model')
+
 const PostModel = sequelize.define("post", {
-    id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
-
-    userId: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'users',
-            key: 'id'
-        }
-    },
-
     imageUrl: {
         type: Sequelize.STRING
     },
@@ -31,6 +20,15 @@ const PostModel = sequelize.define("post", {
         defaultValue: 0
     },
 
+    dislikes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+    }
 })
+
+// Associations
+PostModel.hasMany(CommentModel)
+PostModel.belongsToMany(UserModel, {through: 'user_liked_post'})
+PostModel.belongsToMany(UserModel, {through: 'user_disliked_post'})
 
 module.exports = PostModel

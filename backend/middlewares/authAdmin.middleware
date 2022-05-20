@@ -1,12 +1,12 @@
-// Imports de jwt pour verifier les tokens
+/*** Imports de jwt pour verifier les tokens ***/
 const jwt = require("jsonwebtoken");
 
 const isAdmin = (req) => {
-    //On récupère le token
+    /*** récupération du token dans le header de la requête d'autorisation et la récupération aprés l'espace du deuxieme élément du tableau qui est le token ***/
     const token = req.headers.authorization.split(' ')[1]
-    // On le decode
+    /*** Décodage du token ***/
     const decoded = jwt.decode(token)
-// On vient récuperer l'information de isAdmin dans le payload
+    /*** On vient récuperer l'information de isAdmin dans le payload ***/
     return decoded.isAdmin
 }
 

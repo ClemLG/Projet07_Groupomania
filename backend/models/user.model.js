@@ -1,15 +1,10 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/db")
 
+// Import des models
+const PostModel =  require('./post.model')
+const CommentModel = require('./comment.model')
 const UserModel = sequelize.define("user", {
-
-    id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
-
     email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -41,5 +36,9 @@ const UserModel = sequelize.define("user", {
         type: Sequelize.STRING
     }
 })
+
+// Associations
+UserModel.hasMany(PostModel)
+UserModel.hasMany(CommentModel)
 
 module.exports = UserModel

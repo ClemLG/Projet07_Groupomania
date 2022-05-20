@@ -57,6 +57,7 @@ exports.updateProfile = (req, res) => {
 
 // Désactivation du compte
 exports.unregister = (req, res) => {
+    console.log('je passe par le unregister')
 //On retrouve l'utilisateur dans la base de données
     User.findOne({where: {id: req.params.id}})
         //Si trouvé on supprime le compte de l'utilisateur dont l'id correspond à la requete

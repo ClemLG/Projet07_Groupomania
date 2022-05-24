@@ -27,8 +27,7 @@ const PostModel = sequelize.define("post", {
 })
 
 // Associations
-PostModel.hasMany(CommentModel)
-PostModel.belongsToMany(UserModel, {through: 'user_liked_post'})
-PostModel.belongsToMany(UserModel, {through: 'user_disliked_post'})
+/*PostModel.hasMany(CommentModel)
+PostModel.belongsTo(UserModel)*/
 
 module.exports = PostModel

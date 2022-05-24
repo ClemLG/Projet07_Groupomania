@@ -1,16 +1,20 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/db")
 
-const CommentModel = sequelize.define("comment", {
-    imageUrl: {
-        type: Sequelize.STRING
-    },
+// Import models
+const PostModel = require('./post.model')
+const UserModel = require('./user.model')
 
+const CommentModel = sequelize.define("comment", {
     content: {
         type: Sequelize.STRING,
         defaultValue: ""
     },
 })
+
+// Associations
+/*CommentModel.belongsTo(UserModel)
+CommentModel.belongsTo(PostModel)*/
 
 // Export
 module.exports = CommentModel

@@ -26,16 +26,6 @@ exports.getOneUser = (req, res) => {
         )
 }
 
-// Récupération de tous les utilisateurs
-exports.getAllUsers = (req, res) => {
-    //On récupère les utlisateurs (sauf admin) dans la base de donnée
-    User.findAll({
-        attributes: ["username", "id", "avatar", "email"],
-    })
-        .then((users) => res.status(200).json(users))
-        .catch(error => res.status(400).json({error}))
-}
-
 // Modification du profil
 exports.updateProfile = (req, res) => {
     try {

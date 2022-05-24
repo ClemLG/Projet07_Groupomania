@@ -1,6 +1,7 @@
 const sequelize = require('../config/db')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const secrets = require('../config/secrets')
 
 // Import du model user
 const User = require('../models/user.model')
@@ -34,7 +35,7 @@ exports.register = (req, res) => {
         typeof requestPayload.email !== "string"
         || requestPayload.email.length > 255
         || requestPayload.email.length === 0
-        || requestPayload.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g) === null
+        || requestPayload.email.match(/^[\w-\.]+@([groupomania]+\.)+[fr]{2,4}$/g) === null
     ) {
         throw "Invalid email"
     }
@@ -93,7 +94,8 @@ exports.login = (req, res) => {
                     id: user.id,
                     isAdmin: user.isAdmin
                 },
-                'RANDOM_SECRET_TOKEN',
+                //SecretOrPublicKey
+                secrets.jwtSecret,
                 {expiresIn: "24h"}
                 )
 

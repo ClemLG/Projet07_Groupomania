@@ -1,5 +1,7 @@
 //Import du package JsonWebToken pour l'attribut de token aux requêtes
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+const secrets = require('../config/secrets')
 
 //On exporte le middleware d'authentification
 module.exports = (req, res, next) => {
@@ -11,7 +13,7 @@ module.exports = (req, res, next) => {
         console.log(token)
 
         // On vérifie le token
-        const decodedToken = jwt.verify(token,'RANDOM_SECRET_TOKEN')
+        const decodedToken = jwt.verify(token, secrets.jwtSecret)
         console.log("Test2")
         // Le token décodé devient un objet Javascript, on récupère donc le userId dedans
         const userId = decodedToken.id
@@ -21,6 +23,7 @@ module.exports = (req, res, next) => {
             throw 'Invalid User ID !'
         } else {
             //Si ok, on appelle 'next' car il s'agit d'un middleware donc on peut passer la requete au prochain middleware
+            req.bearerToken = decodedToken
             next()
         }
     } catch (error) {

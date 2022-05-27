@@ -1,7 +1,7 @@
 <!--HTML-->
 <template>
     <div class="header">
-        <img src="/logo/icon-left-font-monochrome-black.svg" alt="Groupomania header logo" @click="">
+        <a href=""><img src="/logo/icon-left-font-monochrome-black.svg" alt="Groupomania header logo" @click="reloadPage"></a>
         <slot></slot>
     </div>
 </template>
@@ -10,7 +10,8 @@
 <script>
     export default {
         methods: {
-            backHomePage(){
+            reloadPage(){
+                this.$router.go()
             }
         }
     }

@@ -63,7 +63,7 @@ exports.updatePost = (req, res) => {
                     .then(() => res.status(200).json({message: 'publication à jour !'}))
                     .catch(error => res.status(400).json({error}))
             } else {
-                return res.status(401).json({message : "Vous n'avez pas les droits nécéssaires !"})
+                return res.status(403).json({message : "Vous n'avez pas les droits nécéssaires !"})
             }
         })
 }
@@ -93,7 +93,7 @@ exports.deletePost = async (req, res) => {
                 res.status(200).json({message: 'Post supprimé !'})
             }
         } else {
-            return res.status(401).send({message: "Vous n'avez pas les droits nécessaires!"})
+            return res.status(403).send({message: "Vous n'avez pas les droits nécessaires!"})
         }
     } catch (error) {
         return res.status(500).json({error: "Erreur Serveur"})

@@ -15,7 +15,7 @@
 <!--HTML-->
 <template>
     <Header/>
-    <UserProfileButton></UserProfileButton>
+    <UserProfileButton v-if=""></UserProfileButton>
 </template>
 
 <!--STYLE-->

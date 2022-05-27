@@ -1,16 +1,26 @@
 <!--HTML-->
 <template>
     <div class="container">
-        <a>
+        <a href="" @click="">
             <img src="" alt="">
-            <p>user</p>
+            <p></p>
         </a>
     </div>
 </template>
 
 <!--JAVASCRIPT-->
 <script>
-
+    export default {
+        props: {
+            avatarUrl: "",
+            username: ""
+        },
+        methods: {
+            onclick(view){
+                console.log('je passe vers la page ProfileView')
+            }
+        }
+    }
 </script>
 
 <!--STYLE-->

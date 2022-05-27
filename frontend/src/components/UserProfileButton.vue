@@ -11,6 +11,7 @@
 <!--JAVASCRIPT-->
 <script>
     export default {
+        name: 'MainFeedView',
         props: {
             avatarUrl: "",
             username: ""

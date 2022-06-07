@@ -35,7 +35,7 @@ exports.register = (req, res) => {
         typeof requestPayload.email !== "string"
         || requestPayload.email.length > 255
         || requestPayload.email.length === 0
-        || requestPayload.email.match(/^[\w-\.]+@([groupomania]+\.)+[fr]{2,4}$/g) === null
+        || requestPayload.email.match(/^[\w\.]+@(groupomania+\.)+[fr]{2,4}$/g) === null
     ) {
         throw "Invalid email"
     }
@@ -55,10 +55,9 @@ exports.register = (req, res) => {
         password: bcrypt.hashSync(`${requestPayload.password}`, 10),
         username: `${requestPayload.username}`
     })
-        .then(() => res.status(201).json({message: 'User Created !'}))
-        console.log('Utilisateur créé')
+        .then((user) => res.status(201).send(user),
+            console.log('Utilisateur créé'))
         .catch(error => res.status(400).json({error}))
-        console.log('Erreur de création user')
 }
 
 // Connexion
@@ -81,7 +80,7 @@ exports.login = (req, res) => {
                 user.password
             )
             // Si mot de passe incorrect on renvoi un status 401 avec message au serveur
-            if(!passwordIsValid) {
+            if (!passwordIsValid) {
                 return res.status(401).send({
                     accessToken: null,
                     message: "Invalid Password !"
@@ -97,17 +96,15 @@ exports.login = (req, res) => {
                 //SecretOrPublicKey
                 secrets.jwtSecret,
                 {expiresIn: "24h"}
-                )
+            )
 
-                res.status(200).json({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    accessToken: token
-                })
+            res.status(200).json({
+                accessToken: token,
+                user: user
+            })
 
         })
         .catch(err => {
-            res.status(500).send({message: err.message })
+            res.status(500).send({message: err.message})
         })
 }

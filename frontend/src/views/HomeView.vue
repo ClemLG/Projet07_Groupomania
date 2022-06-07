@@ -27,16 +27,24 @@
 
 <!--HTML-->
 <template>
-    <div class="fullscreen">
+    <b-container class="fullscreen col-12">
+            <h1>GROUPOMANIA</h1>
         <div class="card">
             <SwitchAuth @switch="onSwitch"/>
             <RegisterForm v-if="currentView === 'register'"/>
             <LoginForm v-if="currentView === 'login'"/>
         </div>
-    </div>
+    </b-container>
 </template>
 
 <!--STYLE-->
-<style>
+<style lang="scss">
+    .fullscreen {
+        background-color: #4a556a;
 
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+    }
 </style>

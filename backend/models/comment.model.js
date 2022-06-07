@@ -12,9 +12,6 @@ const CommentModel = sequelize.define("comment", {
     },
 })
 
-// Associations
-/*CommentModel.belongsTo(UserModel)
-CommentModel.belongsTo(PostModel)*/
 
 // Export
 module.exports = CommentModel

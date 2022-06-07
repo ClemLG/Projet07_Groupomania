@@ -9,6 +9,8 @@ const fs = require('fs')
 
 // Import du model Post
 const Post = require('../models/post.model')
+const User = require('../models/user.model')
+const Comment = require('../models/comment.model')
 
 // Création de post
 exports.createPost = (req, res) => {
@@ -20,8 +22,8 @@ exports.createPost = (req, res) => {
     if (!req.file) {
         return Post.create({
             userId: userId,
-            content: req.body.content,
-            imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+            content: req.body.content,/*
+            imagePost: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`*/
         })
             .then((post) => res.status(201).json({message: "Post crée !"}))
             .catch((err) => res.status(500).json(err))
@@ -34,12 +36,14 @@ exports.getAllPosts = (req, res) => {
     // On utilise la methode "findAll" de notre modele pour permettre la recuperation de tous les posts
     Post.findAll({
         // On précise qu'on veut récupérer les posts de plus récent au plus ancien
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
+        include: [User, Comment]
     })
         .then(posts => {
             return res.status(200).json(posts)
         })
         .catch(error => {
+            console.log(error);
             return res.status(500).json(error)
         })
 }
@@ -73,7 +77,7 @@ exports.deletePost = async (req, res) => {
     console.log("Je passe dans deletePost");
     console.log('id du token: ' + req.bearerToken.id)
     try {
-        // Stockage du schéma de données des Posts
+        // Stockage du schéma de données des Post.vue
         const post = await Post.findOne({where: {id: req.params.id}})
         console.log("id du post: " + post.userId)
         // Avant de supprimer, on vérifie que le post appartient à l'utilisateur ou que celui-ci est admin
@@ -102,8 +106,8 @@ exports.deletePost = async (req, res) => {
 
 
 // Like de post
-exports.likeDislikePost = (req, res) => {
-    // Pour la route READ = Ajout/suppression d'un like / dislike à une sauce
+exports.likePost = (req, res) => {
+    // Pour la route READ = Ajout/suppression d'un like à un post
     // Like présent dans le body
     let like = req.body.like
     // On prend le userID
@@ -119,17 +123,7 @@ exports.likeDislikePost = (req, res) => {
             .catch((error) => res.status(400).json({error}))
     }
 
-    // S'il s'agit d'un dislike
-    if (like === -1) {
-        //On push l'utilisateur on incremente le compteur de 1
-        Post.update({id: postId}, {$push: {usersDisliked: userId}, $inc: {dislikes: +1}})
-            .then(() => {
-                res.status(200).json({message: "Dislike ajouté !"})
-            })
-            .catch((error) => res.status(400).json({error}))
-    }
-
-    // Si il s'agit d'annuler un like ou un dislike
+    // Si il s'agit d'annuler un like
     if (like === 0) {
         Post.findOne({id: postId})
             .then((post) => {
@@ -138,14 +132,6 @@ exports.likeDislikePost = (req, res) => {
                     // On pull l'utilisateur on incrémente le compteur de -1
                     Post.update({id: postId}, {$pull: {usersLiked: userId}, $inc: {likes: -1}})
                         .then(() => res.status(200).json({message: 'Like retiré !'}))
-                        .catch((error) => res.status(400).json({error}))
-                }
-
-                // Si il s'agit d'annuler un dislike
-                if (post.usersDisliked.includes(userId)) {
-                    // On pull l'utilisateur on incrémente le compteur de -1
-                    Post.update({id: postId}, {$pull: {usersDisliked: userId}, $inc: {dislikes: -1}})
-                        .then(() => res.status(200).json({message: 'Dislike retiré !'}))
                         .catch((error) => res.status(400).json({error}))
                 }
             })

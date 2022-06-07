@@ -8,9 +8,9 @@ const multer = require('../middlewares/multer-config')
 const router = express.Router()
 
 // Définition des routes CRUD
-router.post('/comments', auth, commentCtrl.createComment)
-router.get('/comments', auth, commentCtrl.getAllComments)
-router.delete('/comments/:id', auth, commentCtrl.deleteComment)
+router.post('/', auth, commentCtrl.createComment)
+router.get('/', auth, commentCtrl.getAllComments)
+router.delete('/:id', auth, commentCtrl.deleteComment)
 
 
 // Export

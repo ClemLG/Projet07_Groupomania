@@ -18,16 +18,8 @@ const PostModel = sequelize.define("post", {
     likes: {
         type: Sequelize.INTEGER,
         defaultValue: 0
-    },
-
-    dislikes: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
     }
 })
 
-// Associations
-/*PostModel.hasMany(CommentModel)
-PostModel.belongsTo(UserModel)*/
 
 module.exports = PostModel

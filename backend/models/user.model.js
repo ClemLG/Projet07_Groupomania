@@ -37,8 +37,18 @@ const UserModel = sequelize.define("user", {
     }
 })
 
+
+
 // Associations
 UserModel.hasMany(PostModel)
 UserModel.hasMany(CommentModel)
+
+PostModel.belongsTo(UserModel)
+// Associations
+PostModel.hasMany(CommentModel)
+
+// Associations
+CommentModel.belongsTo(UserModel)
+CommentModel.belongsTo(PostModel)
 
 module.exports = UserModel

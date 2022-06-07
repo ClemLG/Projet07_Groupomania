@@ -1,8 +1,20 @@
 <!--HTML-->
 <template>
     <div class="header">
-        <a href=""><img src="/logo/icon-left-font-monochrome-black.svg" alt="Groupomania header logo" @click="reloadPage"></a>
-        <slot></slot>
+        <b-container class="py-3">
+            <b-row>
+                <b-col>
+
+                    <img src="/logo/icon-left-font-monochrome-black.svg" alt="le logo de groupomania" class="logo" @click="reloadPage">
+
+                </b-col>
+                <b-col class="d-flex justify-content-end">
+
+                    <slot></slot>
+
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
@@ -10,7 +22,7 @@
 <script>
     export default {
         methods: {
-            reloadPage(){
+            reloadPage() {
                 this.$router.go()
             }
         }
@@ -19,6 +31,13 @@
 
 
 <!--STYLE-->
-<style scoped>
+<style lang="scss" scoped>
+    .header {
+        background-color: #fff;
 
+        .logo {
+            cursor: pointer;
+            width: 240px;
+        }
+    }
 </style>

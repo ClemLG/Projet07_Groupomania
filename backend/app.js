@@ -23,11 +23,18 @@ app.use((req, res, next) => {
     next()
 })
 
+// IMPORT DES ROUTES
+const authRoute = require('./routes/auth.router')
+const userRoute = require('./routes/user.router')
+const postRoute = require('./routes/post.routes')
+const commentRoute = require('./routes/comment.router')
+
 //Enregistrement des routes
-app.use(require('./routes/auth.router'))
-app.use(require('./routes/user.router'))
-app.use(require('./routes/post.routes'))
-app.use(require('./routes/comment.router'))
+app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/api/auth', authRoute)
+app.use('/api/users', userRoute)
+app.use('/api/posts', postRoute)
+app.use('/api/comments', commentRoute)
 
 // Export de l'application
 module.exports = app

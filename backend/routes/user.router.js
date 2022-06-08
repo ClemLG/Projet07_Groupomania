@@ -9,9 +9,9 @@ const multer = require("../middlewares/multer-config")
 const router = express.Router()
 
 // Définition des routes CRUD
-router.get('/users/:id', auth, userCtrl.getOneUser)
-router.put('/users/:id', auth, multer, userCtrl.updateProfile)
-router.delete('/users/:id', auth, userCtrl.unregister)
+router.get('/:id', auth, userCtrl.getOneUser)
+router.put('/:id', auth, multer, userCtrl.updateProfile)
+router.delete('/:id', auth, userCtrl.unregister)
 
 // Export
 module.exports = router

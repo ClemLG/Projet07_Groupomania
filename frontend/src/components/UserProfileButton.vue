@@ -1,7 +1,7 @@
 <!--HTML-->
 <template>
     <div class="profile-button">
-        <button v-on="onclick">
+        <button @click="onclick">
             <b-avatar variant="secondary" text="BV" class="me-2"></b-avatar>
             <span>{{ username }}</span>
         </button>

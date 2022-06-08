@@ -6,7 +6,7 @@
                 <b-avatar variant="secondary" text="BV"></b-avatar>
             </b-col>
             <b-col class="col-10">
-                <b-form-input v-model="content" type="text" placeholder="Quoi de neuf, {{username}} ?"></b-form-input>
+                <b-form-input v-model="content" type="text" :placeholder="[['Quoi de neuf, ' + username + ' ?']]"></b-form-input>
             </b-col>
             <b-col class="col d-flex justify-content-center align-items-center gap-1">
                 <!--Créer un input form pour l'image-->
@@ -26,7 +26,7 @@
     export default {
         props: {
             avatar: {
-                type: String,
+                type: String
             },
             username: {
                 type: String,
@@ -76,7 +76,6 @@
                     .catch(error => {
                         this.notyf.error("Erreur lors de la création du post" + error)
                     })
-
             }
         }
     }

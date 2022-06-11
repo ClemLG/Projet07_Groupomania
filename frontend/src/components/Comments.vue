@@ -1,18 +1,20 @@
 <!--HTML-->
 <template>
-    <b-container class="com-container">
-        <b-row><input type="text" placeholder="Dites quelque chose à propos de ce post..."></b-row>
+    <b-container class="com-container mt-3">
         <b-row>
-            <div>
+            <input type="text" placeholder="Dites quelque chose à propos de ce post...">
+        </b-row>
+        <b-row>
+            <div v-for="comment in comments">
                 <b-row>
                     <b-col class="d-flex align-items-center gap-2">
                         <b-avatar variant="secondary" text="BV"></b-avatar>
-                        <span>Utilisateur</span>
-                        <p>(Il y a 10 heures)</p>
+                        <span>{{ comment.user.username }}</span>
+                        <p>{{ date(comment.createdAt) }}</p>
                     </b-col>
                 </b-row>
                 <b-row>
-                    <p> {{"le commentaire"}}</p>
+                    <p>{{ comment.content }}</p>
                 </b-row>
             </div>
         </b-row>
@@ -21,19 +23,44 @@
 
 <!--JAVASCRIPT-->
 <script>
+    import moment from 'moment'
+    import fr from '@/config/moment.fr'
+    moment.locale('fr', fr)
+
     export default {
         props: {
+            comments: {
+                type: Array,
+                required: true
+            }
         },
         data() {
-            return {}
+            return {
+                username: '',
+                avatar: '',
+            }
         },
-        methods: {}
+        methods: {
+            createComment() {
+/*                const postId =
+                axios.post('http://localhost:5000/api/comments/ ')*/
+            },
+            date(value)
+            {
+                return moment(value).fromNow()
+            }
+        },
+        beforeMount() {
+            localStorage.getItem('user.username')
+            localStorage.getItem('user.avatar')
+        }
     }
 </script>
 
 <!--CSS-->
 <style lang="scss" scoped>
-    .com-container{
-        border: 1px black solid
+    .com-container {
+        background-color: white;
+        color: #181818;
     }
 </style>

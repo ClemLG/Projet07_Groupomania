@@ -27,24 +27,28 @@
 
 <!--HTML-->
 <template>
-    <b-container class="fullscreen col-12">
+    <div class="home-body">
             <h1>GROUPOMANIA</h1>
-        <div class="card">
+        <div class="home-body__card align-items-center d-flex flex-column">
             <SwitchAuth @switch="onSwitch"/>
             <RegisterForm v-if="currentView === 'register'"/>
             <LoginForm v-if="currentView === 'login'"/>
         </div>
-    </b-container>
+    </div>
 </template>
 
 <!--STYLE-->
 <style lang="scss">
-    .fullscreen {
+    .home-body {
         background-color: #4a556a;
 
         h1 {
             color: #ffffff;
             text-align: center;
+        }
+
+        &__card {
+            background-color: #f2f3f5;
         }
     }
 </style>

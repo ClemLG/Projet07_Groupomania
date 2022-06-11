@@ -14,7 +14,8 @@ exports.createComment = (req, res) => {
     console.log('user id du commentaire est: ' + userId)
     Comment.create({
         userId: userId,
-        content: req.body.content
+        content: req.body.content,
+        postId: req.params.postId
     })
         .then(() => res.status(201).json({ message: "commentaire crée!"}))
         .catch(error => res.status(400).json({ error }))
@@ -26,6 +27,9 @@ exports.getAllComments = (req, res) => {
     // On utilise la methode "findAll" de notre modele pour permettre la recuperation de tous les posts
     Comment.findAll({
         // On précise qu'on veut récupérer les commentaires du plus récent au plus ancien
+        where: {
+            postId: req.params.postId
+        },
         order: [['createdAt', 'DESC']]
     })
         .then(posts => {
@@ -43,7 +47,7 @@ exports.deleteComment = async (req, res) => {
     console.log('id du token: ' + req.bearerToken.id)
     try {
         // Stockage de la table des Commentaires
-        const comment = await Comment.findOne({where: {id: req.params.id}})
+        const comment = await Comment.findOne({where: {id: req.params.commentId}})
         console.log("id du commentaire: " + comment.userId)
         // Avant de supprimer, on vérifie que le commentaire appartient à l'utilisateur ou que celui-ci est admin
         if (comment.userId === req.bearerToken.id || req.bearerToken.isAdmin === true) {

@@ -1,26 +1,30 @@
 <!--HTML-->
 <template>
-    <b-container class="d-flex flex-column">
-        <b-col>
-            <form @submit.prevent="addUser">
+    <b-container class="register-card d-flex flex-column col-md-4">
+        <form class="gap-4" @submit.prevent="addUser">
+            <b-row>
                 <label for="username">Nom d'utilisateur</label>
                 <input type="text" name="username" id="username" v-model="username"/>
-
+            </b-row>
+            <b-row>
                 <label for="email">E-Mail</label>
                 <input type="email" name="email" id="email" v-model="email"/>
-
+            </b-row>
+            <b-row>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" v-model="password"/>
-
+            </b-row>
+            <b-row>
                 <label for="confirm">Confirmation mot de passe</label>
                 <input type="password" name="confirm" id="confirm" v-model="confirm"/>
-
+            </b-row>
+            <b-row>
                 <input type="submit" value="S'inscrire">
-            </form>
-            <div>
-                <a>Déjà un compte ?</a>
-            </div>
-        </b-col>
+            </b-row>
+        </form>
+        <div class="my-5 text-center">
+            <a>Déjà un compte ?</a>
+        </div>
     </b-container>
 </template>
 
@@ -86,5 +90,11 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
+    .register-card {
+        font-family: Montserrat, sans-serif;
 
+        input {
+            text-align: center;
+        }
+    }
 </style>

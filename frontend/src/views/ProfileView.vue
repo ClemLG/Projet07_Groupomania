@@ -12,9 +12,8 @@
 
         data() {
             return {
-                username: null,
-                email: null,
-                avatar: null
+                user: [],
+                imageProfile: null
             }
         },
 
@@ -28,18 +27,35 @@
             })
         },
         methods: {
+            getUser() {
+                const userId = localStorage.getItem('user.id')
+                //On récupère les informations de l'utilisateur depuis le back
+                axios.get('http://localhost:5000/api/users/' + userId, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(response => {
+                        console.log(response)
+                        this.user = response.data
+                    })
+                    .catch(error => {
+                        this.notyf.error("impossible de récuperer l'utilisateur" + error)
+                    })
+            },
             onEdit() {
                 // On récupère l'id de l'utilisateur dans le ls
-                const userId = localStorage.getItem('userId')
+                const userId = localStorage.getItem('user.id')
 
                 const formData = new FormData()
-                formData.append("image", this.avatar)
+                formData.append("image", this.imageProfile)
+                formData.append("username", this.user.username)
 
-                //On vérifie que le champs username contient bien de la donnée
-                if(!this.username){
-                    this.notyf.error("Aucun nom d'utilisateur rentré !")
+                if(this.user.username === ""){
+                    this.notyf.error("Veuillez ajouter un nom d'utilisateur")
                     return
                 }
+
                 axios.put('http://localhost:5000/api/users/' + userId, formData, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -48,7 +64,10 @@
                 })
                     .then(response => {
                         this.notyf.success('Profil modifié avec succès !')
+                        localStorage.setItem("user.username", this.user.username)
+                        localStorage.setItem("user.avatar", this.user.avatar)
                     })
+
                     .catch(e => {
                         this.notyf.error(e)
                     })
@@ -56,11 +75,11 @@
 
             onLogout() {
                 // Permet de se déconnecter
-                localStorage.removeItem('user.email');
-                localStorage.removeItem('user.username');
-                localStorage.removeItem('user.isAdmin');
-                localStorage.removeItem('user.id');
-                localStorage.removeItem('token');
+                localStorage.removeItem('user.email')
+                localStorage.removeItem('user.username')
+                localStorage.removeItem('user.isAdmin')
+                localStorage.removeItem('user.id')
+                localStorage.removeItem('token')
                 localStorage.removeItem('user.avatar')
 
                 this.$router.push('/');
@@ -68,9 +87,8 @@
         },
 
         beforeMount() {
-            this.username = localStorage.getItem('user.username')
-            this.avatar = localStorage.getItem('user.avatar')
-            this.email = localStorage.getItem('user.email')
+            console.log('On récupère les infos user avant chargement')
+            this.getUser()
         }
     }
 </script>
@@ -84,9 +102,9 @@
         </b-row>
         <b-row class="col-6 text-center">
             <label for="username">Nom d'utilisateur</label>
-            <input class="mb-4 text-center" type="text" name="username" id="username" v-model="username">
+            <input class="mb-4 text-center" type="text" name="username" id="username" v-model="user.username">
             <label for="email">E-Mail</label>
-            <input class="mb-4 text-center" disabled="true" type="email" name="email" id="email" v-model="email">
+            <input class="mb-4 text-center" disabled="true" type="email" name="email" id="email" v-model="user.email">
         </b-row>
         <b-row class="gap-2">
             <button @click="onEdit">Modifier profil</button>

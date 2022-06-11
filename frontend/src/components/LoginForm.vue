@@ -1,22 +1,25 @@
 <!--HTML-->
 <template>
-    <form @submit.prevent="loginUser">
-        <label for="email" class="">E-Mail</label>
-        <input type="email" name="email" id="email" v-model="email"/>
-
-        <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" v-model="password"/>
-
-        <input type="submit" value="Se connecter" v-on:click="loginUser">
-    </form>
-    <div>
-        <a>Mot de passe oublié ?</a>
-    </div>
+    <b-container class="login-card d-flex flex-column col-md-4">
+        <form @submit.prevent="loginUser">
+            <b-row>
+                <label for="email" class="">E-Mail</label>
+                <input type="email" name="email" id="email" v-model="email"/>
+            </b-row>
+            <b-row>
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" v-model="password"/>
+            </b-row>
+            <input type="submit" value="Se connecter" v-on:click="loginUser">
+        </form>
+    </b-container>
 </template>
 
 <!--JAVASCRIPT-->
 <script>
     import axios from 'axios'
+    import {Notyf} from 'notyf'
+    import 'notyf/notyf.min.css'
 
     export default {
         name: 'LoginForm',
@@ -25,6 +28,15 @@
                 email: '',
                 password: '',
             }
+        },
+        created() {
+            this.notyf = new Notyf({
+                duration: 4000,
+                position: {
+                    x: "right",
+                    y: "bottom"
+                }
+            })
         },
         methods: {
             loginUser() {
@@ -52,9 +64,9 @@
                         this.$router.push("/feed")
                         console.log('Requête login envoyée')
                     })
-                    .catch(() => res.status(401).json({message: "email ou mot de passe invalide !"}),
-                        console.log("Mot de passe invalide")
-                    )
+                    .catch(error => {
+                        this.notyf.error("Erreur lors de la connexion")
+                    })
             }
         }
     }

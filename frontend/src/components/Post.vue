@@ -19,10 +19,13 @@
             </b-row>
             <b-row>
                 <b-col class="d-flex align-items-center">
-                    <button @click="$emit('like', post)"><i class="fa-regular fa-heart"></i></button>
-                    <p class="post__like-count pe-4">{{10}}</p>
-                    <button @click="$emit('comment', post)"><i class="fa-regular fa-comment"></i></button>
+                    <button @click="likePost"><i class="fa-regular fa-heart"></i></button>
+                    <p class="post__like-count pe-4">{{post.likes.length}}</p>
+                    <button @click="toggleCommentSwitch"><i class="fa-regular fa-comment"></i></button>
                 </b-col>
+            </b-row>
+            <b-row>
+                <Comments v-if="commentSwitch" :comments="post.comments"/>
             </b-row>
         </b-col>
     </b-container>
@@ -30,7 +33,16 @@
 
 <!--SCRIPT-->
 <script>
+    import Comments from '@/components/Comments.vue'
+    import axios from 'axios'
+
     export default {
+        components: { Comments },
+        data() {
+            return {
+                commentSwitch: false
+            }
+        },
         props: {
             post: {
                 type: Object,
@@ -38,6 +50,35 @@
             }
         },
         methods: {
+            likePost()
+            {
+                const currentUserId = localStorage.getItem('user.id')
+
+                // Variable temporaire qui contient l'action que l'on veut faire (va être concaténé à l'url)
+                let action = 'like'
+                // Si j'ai un like dont l'userId == currentUserId, le post est déjà liké, donc je change la valeur de ma variable temporaire en "unlike"
+                this.post.likes.forEach(like => {
+                    if (like.userId == currentUserId) {
+                        action = 'unlike'
+                    }
+                })
+
+                axios.post(`http://localhost:5000/api/posts/${this.post.id}/${action}`, null, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(res => {
+                        this.$emit('updated', this.post)
+                    })
+                    .catch(error => {
+                        this.notyf.error("Erreur lors du like")
+                    })
+            },
+            toggleCommentSwitch() {
+                this.commentSwitch = !this.commentSwitch
+            },
             getImgUrl() {
                 return {
                     image: image

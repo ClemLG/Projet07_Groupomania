@@ -7,7 +7,6 @@
     import UserProfileButton from '@/components/UserProfileButton.vue'
     import Post from '@/components/Post.vue'
     import PostForm from '@/components/PostForm.vue'
-    import Comments from '@/components/Comments.vue'
 
     export default {
         components: {
@@ -15,14 +14,10 @@
             UserProfileButton,
             Post,
             PostForm,
-            Comments
         },
         data() {
             return {
-                postList: [],
-                commentsList: [],
-                like: 0,
-                showComment: false,
+                postList: []
             }
         },
         created() {
@@ -48,39 +43,7 @@
                     .catch(e => {
                         console.log(e)
                     })
-            },
-
-            getComments(id) {
-                this.showComment = !this.showComment
-                const postId = id;
-                // Requête pour récupérer les commentaires
-                axios.get('http://localhost:5000/api/comments' + postId, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                })
-                    .then(response => {
-                        this.commentsList = response.data
-                    })
-                    .catch(e => {
-                        this.notyf.error(e)
-                    })
-            },
-
-            onComment(post) {
-                axios.post('http://localhost:5000/api/comments/:id', {
-                    comment: this.comment
-                })
-                console.log("Commentaire sur le post " + post.id)
-            },
-
-            onLike(post) {
-                axios.post('http://localhost:5000/api/posts/:id/like', {
-                    like: this.like
-                })
-                console.log("Like sur le post " + post.id)
-            },
+            }
         },
         beforeMount() {
             console.log('récupération des posts au chargement')
@@ -103,9 +66,7 @@
 
                     <PostForm/>
                     <h1>Publications récentes</h1>
-                    <Post v-for="postItem in postList" :post="postItem"/>
-                    <!--La fenêtre commentaire apparait uniquement si on clique sur l'icone commentaire-->
-                    <Comments/>
+                    <Post v-for="postItem in postList" :post="postItem" @updated="getPosts"/>
                 </b-col>
             </b-row>
         </b-container>

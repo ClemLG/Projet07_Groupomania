@@ -11,6 +11,7 @@ const fs = require('fs')
 const Post = require('../models/post.model')
 const User = require('../models/user.model')
 const Comment = require('../models/comment.model')
+const Like = require('../models/like.model')
 
 // Création de post
 exports.createPost = (req, res) => {
@@ -37,10 +38,46 @@ exports.getAllPosts = (req, res) => {
     Post.findAll({
         // On précise qu'on veut récupérer les posts de plus récent au plus ancien
         order: [['createdAt', 'DESC']],
-        include: [User, Comment]
+        include: [
+            {
+                model: User
+            },
+            {
+                model: Comment,
+                include: [User],
+                order: [['createdAt', 'DESC']]
+            },
+            {
+                model: Like
+            },
+        ]
     })
         .then(posts => {
             return res.status(200).json(posts)
+        })
+        .catch(error => {
+            console.log(error);
+            return res.status(500).json(error)
+        })
+}
+
+// Récupération d'un post
+exports.getOnePost = (req, res) => {
+    Post.findOne({where: {id: req.params.id}, include: [
+            {
+                model: User
+            },
+            {
+                model: Comment,
+                include: [User],
+                order: [['createdAt', 'DESC']]
+            },
+            {
+                model: Like
+            },
+        ]})
+        .then(post => {
+            return res.status(200).json(post)
         })
         .catch(error => {
             console.log(error);
@@ -63,13 +100,13 @@ exports.updatePost = (req, res) => {
                     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                     // Sinon on prends le corps de la requete et on modifie l'id de l'objet qu'on vient de créer pour correspondre à l'id des parametres de requete
                 } : {...req.body}
-                Post.update({...postObject}, {where: {id: req.params.id}})
+                return Post.update({...postObject}, {where: {id: req.params.id}})
                     .then(() => res.status(200).json({message: 'publication à jour !'}))
-                    .catch(error => res.status(400).json({error}))
             } else {
                 return res.status(403).json({message : "Vous n'avez pas les droits nécéssaires !"})
             }
         })
+        .catch(error => res.status(400).json({error}))
 }
 
 // Suppression de post
@@ -108,34 +145,41 @@ exports.deletePost = async (req, res) => {
 // Like de post
 exports.likePost = (req, res) => {
     // Pour la route READ = Ajout/suppression d'un like à un post
-    // Like présent dans le body
-    let like = req.body.like
     // On prend le userID
-    let userId = req.body.userId
+    let userId = req.bearerToken.id
     // On prend l'id de la sauce
     let postId = req.params.id
 
-    // Si il s'agit d'un like
-    if (like === 1) {
-        // On push l'utilisateur et on incrémente le compteur de 1
-        Post.update({id: postId}, {$push: {usersLiked: userId}, $inc: {likes: +1}})
-            .then(() => res.status(200).json({message: "j'aime ajouté !"}))
-            .catch((error) => res.status(400).json({error}))
-    }
-
-    // Si il s'agit d'annuler un like
-    if (like === 0) {
-        Post.findOne({id: postId})
-            .then((post) => {
-                // Si il s'agit d'annuler un like
-                if (post.usersLiked.includes(userId)) {
-                    // On pull l'utilisateur on incrémente le compteur de -1
-                    Post.update({id: postId}, {$pull: {usersLiked: userId}, $inc: {likes: -1}})
-                        .then(() => res.status(200).json({message: 'Like retiré !'}))
-                        .catch((error) => res.status(400).json({error}))
-                }
+    Like.findAll({ where: {userId, postId} })
+        .then(likes => {
+            if (likes.length) {
+                throw 'Post déjà liké'
+            }
+            return Like.create({
+                userId,
+                postId
             })
-            .catch((error) => res.status(404).json({error}))
-    }
+                .then((like) => res.status(201).json({message: "Like crée !"}))
+        })
+        .catch((error) => res.status(400).json({error}))
 }
 
+// Annulation de like de post
+exports.unlikePost = (req, res) => {
+    // Pour la route READ = Ajout/suppression d'un like à un post
+    // On prend le userID
+    let userId = req.bearerToken.id
+    // On prend l'id de la sauce
+    let postId = req.params.id
+
+    Like.findAll({ where: {userId, postId} })
+        .then(likes => {
+            if (!likes.length) {
+                throw 'Post non liké'
+            }
+            const likesIds = likes.map(like => like.id)
+            Like.destroy({ where: { id: likesIds } })
+                .then((like) => res.status(201).json({message: "Like annulé !"}))
+        })
+        .catch((error) => res.status(400).json({error}))
+}

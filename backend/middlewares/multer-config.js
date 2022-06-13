@@ -5,7 +5,10 @@ const multer = require('multer')
 const MIME_TYPES = {
     'images/jpg': 'jpg',
     'images/jpeg': 'jpg',
-    'images/png': 'png'
+    'images/png': 'png',
+    'image/jpg': 'jpg',
+    'image/jpeg': 'jpg',
+    'image/png': 'png'
 }
 
 // Création d'un objet de configuration pour multer
@@ -20,7 +23,8 @@ const storage = multer.diskStorage({
         // On utilise le nom d'origine du fichier en éliminant les espaces
         const name = file.originalname.split(' ').join('_')
         // On génère l'extension du fichier qui sera l'élément du dictionnaire qui correspond au MYME TYPES du fichier envoyé depuis le frontend
-        const extension = MIME_TYPE[file.mimetype]
+        const extension = MIME_TYPES[file.mimetype]
+        console.log(file.mimetype);
         // On appelle à nouveau un callback avec un argument "null" pour préciser qu'il n'y a pas d'erreur et on créer le filename entier avec l'usage d'un time stamp pour  le rendre unique
         callback(null, name + Date.now() + '.' + extension)
     }

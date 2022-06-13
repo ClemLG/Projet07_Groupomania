@@ -2,9 +2,14 @@
 <template>
     <b-container class="com-container mt-3">
         <b-row>
-            <input type="text" placeholder="Dites quelque chose à propos de ce post...">
+            <b-input-group class="mt-3">
+                <b-form-input type="text" placeholder="Dites quelque chose à propos de ce post..." v-model="contentComment"></b-form-input>
+                <b-input-group-append>
+                    <b-button variant="secondary" @click="createComment"><i class="fa-solid fa-share"></i></b-button>
+                </b-input-group-append>
+            </b-input-group>
         </b-row>
-        <b-row>
+        <b-row class="mt-2">
             <div v-for="comment in comments">
                 <b-row>
                     <b-col class="d-flex align-items-center gap-2">
@@ -23,8 +28,10 @@
 
 <!--JAVASCRIPT-->
 <script>
+    import axios from 'axios'
     import moment from 'moment'
     import fr from '@/config/moment.fr'
+
     moment.locale('fr', fr)
 
     export default {
@@ -32,21 +39,39 @@
             comments: {
                 type: Array,
                 required: true
+            },
+            post: {
+                type: Object,
+                required: true
             }
         },
         data() {
             return {
                 username: '',
                 avatar: '',
+                contentComment: ''
             }
         },
         methods: {
             createComment() {
-/*                const postId =
-                axios.post('http://localhost:5000/api/comments/ ')*/
+                const formData = new FormData()
+                formData.append("content", this.contentComment)
+                axios.post(`http://localhost:5000/api/posts/${this.post.id}/comment`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                .then(res => {
+                    console.log('commentaire créé')
+                    window.location.reload()
+                })
+                .catch(error => {
+                    this.notyf.error("Erreur lors de la création du post")
+                })
             },
-            date(value)
-            {
+
+            date(value) {
                 return moment(value).fromNow()
             }
         },

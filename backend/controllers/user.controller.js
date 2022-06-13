@@ -32,7 +32,7 @@ exports.updateProfile = (req, res) => {
         console.log(req.body)
         User.update({
             username: req.body.username,
-            avatar: req.body.avatar
+            avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
         }, {
             where: {
                 id: (req.params.id)

@@ -4,11 +4,11 @@
         <b-col class="pt-3 pb-1">
             <b-row class="row d-flex align-items-center mb-4 ">
                 <b-col class="col-1 d-flex justify-content-center">
-                    <b-avatar variant="secondary" text="BV"></b-avatar>
+                    <b-avatar variant="secondary" text="BV" :src="post.user.avatar"></b-avatar>
                 </b-col>
                 <b-col class="col-11">
                     <h3>{{post.user.username}}</h3>
-                    <p>Posté il y a </p>
+                    <p>{{ date(post.createdAt) }}</p>
                 </b-col>
             </b-row>
             <b-row class="row mb-4">
@@ -22,10 +22,11 @@
                     <button @click="likePost"><i class="fa-regular fa-heart"></i></button>
                     <p class="post__like-count pe-4">{{post.likes.length}}</p>
                     <button @click="toggleCommentSwitch"><i class="fa-regular fa-comment"></i></button>
+                    <p class="post__like-count pe-4">{{post.comments.length}}</p>
                 </b-col>
             </b-row>
             <b-row>
-                <Comments v-if="commentSwitch" :comments="post.comments"/>
+                <Comments v-if="commentSwitch" :comments="post.comments" :post="post"/>
             </b-row>
         </b-col>
     </b-container>
@@ -35,9 +36,11 @@
 <script>
     import Comments from '@/components/Comments.vue'
     import axios from 'axios'
+    import moment from 'moment'
+    import fr from '@/config/moment.fr'
 
     export default {
-        components: { Comments },
+        components: {Comments},
         data() {
             return {
                 commentSwitch: false
@@ -50,8 +53,7 @@
             }
         },
         methods: {
-            likePost()
-            {
+            likePost() {
                 const currentUserId = localStorage.getItem('user.id')
 
                 // Variable temporaire qui contient l'action que l'on veut faire (va être concaténé à l'url)
@@ -79,11 +81,9 @@
             toggleCommentSwitch() {
                 this.commentSwitch = !this.commentSwitch
             },
-            getImgUrl() {
-                return {
-                    image: image
-                }
-                console.log(`récupération de l'image du post`)
+
+            date(value) {
+                return moment(value).fromNow()
             }
         },
         mounted() {

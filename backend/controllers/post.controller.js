@@ -37,7 +37,7 @@ exports.getAllPosts = (req, res) => {
     // On utilise la methode "findAll" de notre modele pour permettre la recuperation de tous les posts
     Post.findAll({
         // On précise qu'on veut récupérer les posts de plus récent au plus ancien
-        order: [['createdAt', 'DESC']],
+        order: [[Comment, 'createdAt', 'DESC']],
         include: [
             {
                 model: User
@@ -147,7 +147,7 @@ exports.likePost = (req, res) => {
     // Pour la route READ = Ajout/suppression d'un like à un post
     // On prend le userID
     let userId = req.bearerToken.id
-    // On prend l'id de la sauce
+    // On prend l'id du post
     let postId = req.params.id
 
     Like.findAll({ where: {userId, postId} })
@@ -169,7 +169,7 @@ exports.unlikePost = (req, res) => {
     // Pour la route READ = Ajout/suppression d'un like à un post
     // On prend le userID
     let userId = req.bearerToken.id
-    // On prend l'id de la sauce
+    // On prend l'id du post
     let postId = req.params.id
 
     Like.findAll({ where: {userId, postId} })

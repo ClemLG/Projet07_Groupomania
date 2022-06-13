@@ -38,6 +38,8 @@
     import axios from 'axios'
     import moment from 'moment'
     import fr from '@/config/moment.fr'
+    import {Notyf} from 'notyf'
+    import 'notyf/notyf.min.css'
 
     export default {
         components: {Comments},
@@ -51,6 +53,15 @@
                 type: Object,
                 required: true
             }
+        },
+        created() {
+            this.notyf = new Notyf({
+                duration: 4000,
+                position: {
+                    x: "right",
+                    y: "bottom"
+                }
+            })
         },
         methods: {
             likePost() {
@@ -85,9 +96,6 @@
             date(value) {
                 return moment(value).fromNow()
             }
-        },
-        mounted() {
-            console.log(this.post)
         }
     }
 </script>

@@ -38,7 +38,6 @@
                     .then(response => {
                         console.log(response)
                         this.user = response.data
-                        localStorage.setItem('avatar', response.data.imageProfile)
                     })
                     .catch(error => {
                         this.notyf.error("impossible de récuperer l'utilisateur" + error)
@@ -88,9 +87,6 @@
             },
 
             // Permet de modifier la photo de profil
-            uploadFile () {
-                this.$refs.fileUpload.click()
-            },
             onFileSelected(event) {
                 this.imageProfile = event.target.files[0]
             }
@@ -108,7 +104,7 @@
     <Header/>
     <b-container class="profile-card d-flex flex-column col-md-4 col-8 align-items-center py-5 gap-5">
         <b-row>
-            <b-img :src="user.avatar" :avatar="user.avatar" rounded="circle" alt="Avatar utilisateur"></b-img>
+            <b-img :src="user.avatar" rounded="circle" alt="Avatar utilisateur"></b-img>
         </b-row>
         <div class="mb-3">
             <input class="form-control" type="file" id="formFile" @change="onFileSelected" ref="fileUpload">

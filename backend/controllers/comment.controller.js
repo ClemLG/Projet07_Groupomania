@@ -19,7 +19,7 @@ exports.createComment = (req, res) => {
     })
         .then(() => res.status(201).json({ message: "commentaire crée!"}))
         .catch(error => res.status(400).json({ error }))
-    console.log(this.content)
+    console.log(req.body.content)
 }
 
 // Récupération de tous les commmentaires

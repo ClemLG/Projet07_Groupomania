@@ -31,6 +31,8 @@
     import axios from 'axios'
     import moment from 'moment'
     import fr from '@/config/moment.fr'
+    import {Notyf} from 'notyf'
+    import 'notyf/notyf.min.css'
 
     moment.locale('fr', fr)
 
@@ -52,13 +54,21 @@
                 contentComment: ''
             }
         },
+        created() {
+            this.notyf = new Notyf({
+                duration: 4000,
+                position: {
+                    x: "right",
+                    y: "bottom"
+                }
+            })
+        },
         methods: {
             createComment() {
-                const formData = new FormData()
-                formData.append("content", this.contentComment)
-                axios.post(`http://localhost:5000/api/posts/${this.post.id}/comment`, formData, {
+                axios.post(`http://localhost:5000/api/posts/${this.post.id}/comment`, {
+                    content: this.contentComment,
+                }, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 })
@@ -67,7 +77,7 @@
                     window.location.reload()
                 })
                 .catch(error => {
-                    this.notyf.error("Erreur lors de la création du post")
+                    this.notyf.error("Erreur lors de la publication du commentaire")
                 })
             },
 

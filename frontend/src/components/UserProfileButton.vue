@@ -2,7 +2,7 @@
 <template>
     <div class="profile-button">
         <button @click="onclick">
-            <b-avatar variant="secondary" text="BV" class="me-2"></b-avatar>
+            <b-avatar variant="secondary" text="BV" class="me-2" :src="avatar"></b-avatar>
             <span>{{ username }}</span>
         </button>
     </div>

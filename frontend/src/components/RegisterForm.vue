@@ -1,30 +1,28 @@
 <!--HTML-->
 <template>
     <b-container class="register-card d-flex flex-column col-md-4">
-        <form class="gap-4" @submit.prevent="addUser">
-            <b-row>
-                <label for="username">Nom d'utilisateur</label>
-                <input type="text" name="username" id="username" v-model="username"/>
-            </b-row>
-            <b-row>
-                <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email" v-model="email"/>
-            </b-row>
-            <b-row>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" v-model="password"/>
-            </b-row>
-            <b-row>
-                <label for="confirm">Confirmation mot de passe</label>
-                <input type="password" name="confirm" id="confirm" v-model="confirm"/>
-            </b-row>
-            <b-row>
-                <input type="submit" value="S'inscrire">
-            </b-row>
-        </form>
-        <div class="my-5 text-center">
-            <a>Déjà un compte ?</a>
-        </div>
+        <b-form class="register-card__form" @submit.prevent="addUser">
+            <b-form-group id="username" label="Nom d'utilisateur" label-for="username">
+                <b-form-input class="register-card__form__input" type="text" name="username" id="username"
+                              placeholder="Nom d'utilisateur" v-model="username"></b-form-input>
+            </b-form-group>
+            <b-form-group id="email" label="E-Mail" label-for="email">
+                <b-form-input class="register-card__form__input" type="email" name="email" id="email"
+                              v-model="email"></b-form-input>
+            </b-form-group>
+            <b-form-group id="password" label="Mot de passe" label-for="password">
+                <b-form-input class="register-card__form__input" type="password" name="password" id="password"
+                              placeholder="Mot de passe" v-model="password"></b-form-input>
+            </b-form-group>
+            <b-form-group id="confirm" label="Confirmation mot de passe" label-for="confirm">
+                <b-form-input class="register-card__form__input" type="password" name="confirm" id="confirm"
+                              placeholder="Confirmation mot de passe " v-model="confirm"></b-form-input>
+            </b-form-group>
+            <div class="d-flex justify-content-center mt-5">
+                <b-button class="register-card__form__submitButton" type="submit" variant="submitHomePage">S'inscrire
+                </b-button>
+            </div>
+        </b-form>
     </b-container>
 </template>
 
@@ -93,8 +91,15 @@
     .register-card {
         font-family: Montserrat, sans-serif;
 
-        input {
-            text-align: center;
+        &__form {
+            &__input {
+                background-color: #ffffff;
+                text-align: center;
+            }
+
+            &__submitButton {
+                font-weight: bold;
+            }
         }
     }
 </style>

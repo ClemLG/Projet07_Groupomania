@@ -1,17 +1,20 @@
 <!--HTML-->
 <template>
     <b-container class="login-card d-flex flex-column col-md-4">
-        <form @submit.prevent="loginUser">
-            <b-row>
-                <label for="email" class="">E-Mail</label>
-                <input type="email" name="email" id="email" v-model="email"/>
-            </b-row>
-            <b-row>
-                <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" v-model="password"/>
-            </b-row>
-            <input type="submit" value="Se connecter" v-on:click="loginUser">
-        </form>
+        <b-form class="login-card__form" @submit.prevent="loginUser">
+            <b-form-group id="email" label="E-Mail" label-for="email">
+                <b-form-input class="login-card__form__input" type="email" name="email" id="email"
+                              v-model="email"></b-form-input>
+            </b-form-group>
+            <b-form-group id="password" label="Mot de passe" label-for="password">
+                <b-form-input class="login-card__form__input" type="password" name="password" id="password"
+                              placeholder="Mot de passe" v-model="password"></b-form-input>
+            </b-form-group>
+            <div class="d-flex justify-content-center mt-5">
+                <b-button class="login-card__form__submitButton" type="submit" variant="submitHomePage">Se connecter
+                </b-button>
+            </div>
+        </b-form>
     </b-container>
 </template>
 
@@ -25,7 +28,7 @@
         name: 'LoginForm',
         data() {
             return {
-                email: '',
+                email: '@groupomania.fr',
                 password: '',
             }
         },
@@ -65,7 +68,7 @@
                         console.log('Requête login envoyée')
                     })
                     .catch(error => {
-                        this.notyf.error("Erreur lors de la connexion")
+                        this.notyf.error("Erreur lors de la connexion" + error)
                     })
             }
         }
@@ -73,6 +76,19 @@
 </script>
 
 <!--STYLE-->
-<style>
+<style lang="scss" scoped>
+    .login-card {
+        font-family: Montserrat, sans-serif;
 
+        &__form {
+            &__input {
+                background-color: white;
+                text-align: center;
+            }
+
+            &__submitButton {
+                font-weight: bold;
+            }
+        }
+    }
 </style>

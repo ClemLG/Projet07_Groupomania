@@ -51,7 +51,7 @@
                 formData.append("image", this.imageProfile)
                 formData.append("username", this.user.username)
 
-                if(this.user.username === ""){
+                if (this.user.username === "") {
                     this.notyf.error("Veuillez ajouter un nom d'utilisateur")
                     return
                 }
@@ -64,9 +64,8 @@
                 })
                     .then(response => {
                         this.notyf.success('Profil modifié avec succès !')
-                        localStorage.setItem("user.username", this.user.username)
-                        localStorage.setItem("user.avatar", this.user.avatar)
-                        window.location.reload();
+                        localStorage.setItem('user.avatar', this.user.avatar)
+                        this.getUser()
                     })
 
                     .catch(e => {
@@ -84,6 +83,26 @@
                 localStorage.removeItem('user.avatar')
 
                 this.$router.push('/');
+            },
+            onDeleteAccount () {
+              let confirmDeleteMsg = confirm( " Êtes vous sur de vouloir supprimer votre compte ?")
+                if(confirmDeleteMsg == true) {
+                    const userId = localStorage.getItem('user.id');
+                    axios.delete('http://localhost:5000/api/users/' + userId, {
+                        headers: {
+                            'Content-Type' : 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
+                        .then(() => {
+                            this.notyf.success('Votre compte a bien été supprimé')
+                            localStorage.clear();
+                            this.$router.push('/');
+                        })
+                        .catch(error => {
+                            this.notyf.error('Erreur lors de la suppression de compte' + error)
+                        })
+                }
             },
 
             // Permet de modifier la photo de profil
@@ -118,6 +137,7 @@
         <b-row class="gap-2">
             <button @click="onEdit">Modifier profil</button>
             <button @click="onLogout">Se déconnecter</button>
+            <button @click="onDeleteAccount">Supprimer son compte</button>
         </b-row>
     </b-container>
 </template>

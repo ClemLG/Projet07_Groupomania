@@ -27,6 +27,7 @@
 
 <!--HTML-->
 <template>
+    <b-container fluid="xl">
     <div class="home-body">
             <h1>GROUPOMANIA</h1>
         <div class="home-body__card align-items-center d-flex flex-column">
@@ -35,6 +36,7 @@
             <LoginForm v-if="currentView === 'login'"/>
         </div>
     </div>
+    </b-container>
 </template>
 
 <!--STYLE-->

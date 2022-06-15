@@ -3,7 +3,7 @@
     <b-container class="form mt-3 p-4">
         <b-row class="d-flex align-items-center">
             <b-col class="col d-flex justify-content-center">
-                <b-avatar variant="secondary" text="BV"></b-avatar>
+                <b-avatar variant="secondary" text="BV" src="{{avatar}}"></b-avatar>
             </b-col>
             <b-col class="col-10">
                 <b-form-input v-model="content" type="text" :placeholder="[['Quoi de neuf, ' + username + ' ?']]"></b-form-input>
@@ -26,7 +26,7 @@
     export default {
         props: {
             avatar: {
-                type: String
+               type: String
             },
             username: {
                 type: String,
@@ -54,6 +54,14 @@
             })
         },
         methods: {
+            // Permet de créer un nouveau message
+            uploadFile() {
+                this.$refs.fileUpload.click()
+            },
+            onFileSelected(event) {
+                this.imagePost = event.target.files[0];
+                this.imagePreview = URL.createObjectURL(this.imagePost);
+            },
             createPost() {
                 console.log('je passe par createPost')
                 console.log(this.content);

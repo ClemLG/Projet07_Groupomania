@@ -24,7 +24,7 @@ exports.createPost = (req, res) => {
         return Post.create({
             userId: userId,
             content: req.body.content,/*
-            imagePost: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`*/
+            imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`*/
         })
             .then((post) => res.status(201).json({message: "Post crée !"}))
             .catch((err) => res.status(500).json(err))

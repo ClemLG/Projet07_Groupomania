@@ -1,9 +1,13 @@
-// Body
+// COLORS PALETTE
 $body-bg: #f3f3f3;
-
-// Body b-col
-$secondary: #d7d7d7;
-
+$theme-colors: (
+        "submitHomePage": #8da2c0,
+        "secondary": #d7d7d7
+);
 
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
 @import '/node_modules/bootstrap-vue-3/src/styles/styles.scss';
+
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";

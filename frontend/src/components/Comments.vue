@@ -1,34 +1,37 @@
 <!--HTML-->
 <template>
-    <b-container class="com-container mt-3">
-        <b-row>
-            <b-input-group class="mt-3">
-                <b-form-input type="text" placeholder="Dites quelque chose à propos de ce post..."
-                              v-model="contentComment"></b-form-input>
-                <b-input-group-append>
-                    <b-button variant="secondary" @click="createComment"><i class="fa-solid fa-share"></i></b-button>
-                </b-input-group-append>
-            </b-input-group>
-        </b-row>
-        <b-row class="mt-2">
-            <div v-for="comment in comments">
-                <b-row class="d-flex align-items-center ">
-                    <b-col class="col-11 d-flex align-items-center gap-2">
+    <b-form class="mb-2">
+        <b-input-group>
+            <b-form-input placeholder="Dites quelque chose à propos de ce post..." v-model="contentComment"/>
+            <b-input-group-append>
+                <b-button variant="secondary" @click="createComment">
+                    <i class="fa-solid fa-share" aria-label="icone d'envoi"></i>
+                </b-button>
+            </b-input-group-append>
+        </b-input-group>
+    </b-form>
+
+    <div class="bg-white border border-secondary rounded-3 p-2 text-black" v-for="(comment, index) in comments" :class="{ 'mb-2': index < comments.length - 1 }">
+        <b-container fluid class="p-0">
+            <b-row align-v="center">
+                <b-col>
+                    <div class="d-flex align-items-center">
                         <b-avatar variant="secondary" text="BV"></b-avatar>
-                        <span>{{ comment.user.username }}</span>
+                        <span class="mx-2">{{ comment.user.username }}</span>
                         <p>{{ date(comment.createdAt) }}</p>
-                    </b-col>
-                    <b-col>
-                        <button v-if="userId == comment.user.id || isAdmin == 'true'"
-                                v-on:click="deleteComment(comment.id)" aria-label="Supprimer le commentaire"><i class="fa-solid fa-circle-xmark"></i></button>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <p>{{ comment.content }}</p>
-                </b-row>
-            </div>
-        </b-row>
-    </b-container>
+                    </div>
+                </b-col>
+                <b-col cols="auto">
+                    <span class="delete-icon" v-if="userId == comment.user.id || isAdmin == 'true'" @click="deleteComment(comment.id)">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </span>
+                </b-col>
+            </b-row>
+            <b-row>
+                <p>{{ comment.content }}</p>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <!--JAVASCRIPT-->
@@ -116,18 +119,4 @@
 
 <!--CSS-->
 <style lang="scss" scoped>
-    .com-container {
-        background-color: white;
-        color: #181818;
-
-        i {
-            color: #4a556a;
-        }
-
-        button {
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
-    }
 </style>

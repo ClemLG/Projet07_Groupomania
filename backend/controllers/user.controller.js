@@ -29,11 +29,14 @@ exports.getOneUser = (req, res) => {
 // Modification du profil
 exports.updateProfile = (req, res) => {
     try {
-        console.log(req.body)
-        User.update({
-            username: req.body.username,
-            avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-        }, {
+        let payload = {}
+        if (req.body.username) {
+            payload.username = req.body.username
+        }
+        if (req.file) {
+            payload.avatar = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        }
+        User.update(payload, {
             where: {
                 id: (req.params.id)
             }

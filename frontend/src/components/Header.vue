@@ -1,16 +1,21 @@
 <!--HTML-->
 <template>
-    <div class="header">
-        <b-container class="py-3">
-            <b-row>
-                <b-col>
+    <div class="header py-3">
 
-                    <img src="/logo/icon-left-font-monochrome-black.svg" alt="le logo de groupomania" class="logo" @click="reloadPage">
+        <b-container>
+            <b-row align-v="center" no-gutters>
+                <b-col class="p-0">
+
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <img src="/logo/icon-left-font-monochrome-black.svg" alt="le logo de groupomania" class="logo" @click="reloadPage">
+                    </div>
 
                 </b-col>
-                <b-col class="d-flex justify-content-end">
+                <b-col class="p-0">
 
-                    <slot></slot>
+                    <div class="d-flex justify-content-center justify-content-md-end">
+                        <slot></slot>
+                    </div>
 
                 </b-col>
             </b-row>

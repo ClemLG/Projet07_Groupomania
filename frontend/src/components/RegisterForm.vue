@@ -1,29 +1,28 @@
 <!--HTML-->
 <template>
-    <b-container class="register-card d-flex flex-column col-md-4">
-        <b-form class="register-card__form" @submit.prevent="addUser">
-            <b-form-group id="username" label="Nom d'utilisateur" label-for="username">
-                <b-form-input class="register-card__form__input" type="text" name="username" id="username"
-                              placeholder="Nom d'utilisateur" v-model="username"></b-form-input>
-            </b-form-group>
-            <b-form-group id="email" label="E-Mail" label-for="email">
-                <b-form-input class="register-card__form__input" type="email" name="email" id="email"
-                              v-model="email"></b-form-input>
-            </b-form-group>
-            <b-form-group id="password" label="Mot de passe" label-for="password">
-                <b-form-input class="register-card__form__input" type="password" name="password" id="password"
-                              placeholder="Mot de passe" v-model="password"></b-form-input>
-            </b-form-group>
-            <b-form-group id="confirm" label="Confirmation mot de passe" label-for="confirm">
-                <b-form-input class="register-card__form__input" type="password" name="confirm" id="confirm"
-                              placeholder="Confirmation mot de passe " v-model="confirm"></b-form-input>
-            </b-form-group>
-            <div class="d-flex justify-content-center mt-5">
-                <b-button class="register-card__form__submitButton" type="submit" variant="submitHomePage">S'inscrire
-                </b-button>
-            </div>
-        </b-form>
-    </b-container>
+    <b-form class="register__form" @submit.prevent="addUser">
+        <b-form-group id="username" label="Nom d'utilisateur" label-for="username" label-class="mb-0">
+            <b-form-input class="register__form__input" type="text" name="username" id="username"
+                          placeholder="Nom d'utilisateur" v-model="username"></b-form-input>
+        </b-form-group>
+        <b-form-group id="email" label="E-Mail" label-for="email" label-class="mb-0">
+            <b-form-input class="register__form__input" type="email" name="email" id="email"
+                          v-model="email"></b-form-input>
+        </b-form-group>
+        <b-form-group id="password" label="Mot de passe" label-for="password" label-class="mb-0">
+            <b-form-input class="register__form__input" type="password" name="password" id="password"
+                          placeholder="Mot de passe" v-model="password"></b-form-input>
+        </b-form-group>
+        <b-form-group id="confirm" label="Confirmation mot de passe" label-for="confirm" label-class="mb-0">
+            <b-form-input class="register__form__input" type="password" name="confirm" id="confirm"
+                          placeholder="Confirmation mot de passe " v-model="confirm"></b-form-input>
+        </b-form-group>
+        <div class="d-flex justify-content-center my-4">
+            <b-button class="register__form__submit-button" type="submit" variant="light-blue">
+                S'inscrire
+            </b-button>
+        </div>
+    </b-form>
 </template>
 
 <!--JAVASCRIPT-->
@@ -88,18 +87,15 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    .register-card {
-        font-family: Montserrat, sans-serif;
+    .register__form {
+        &__input {
+            background-color: #ffffff;
+            text-align: center;
+        }
 
-        &__form {
-            &__input {
-                background-color: #ffffff;
-                text-align: center;
-            }
-
-            &__submitButton {
-                font-weight: bold;
-            }
+        &__submit-button {
+            font-weight: bold;
+            border: solid 0.5px #3d3d3d;
         }
     }
 </style>

@@ -1,21 +1,19 @@
 <!--HTML-->
 <template>
-    <b-container class="login-card d-flex flex-column col-md-4">
-        <b-form class="login-card__form" @submit.prevent="loginUser">
-            <b-form-group id="email" label="E-Mail" label-for="email">
-                <b-form-input class="login-card__form__input" type="email" name="email" id="email"
-                              v-model="email"></b-form-input>
-            </b-form-group>
-            <b-form-group id="password" label="Mot de passe" label-for="password">
-                <b-form-input class="login-card__form__input" type="password" name="password" id="password"
-                              placeholder="Mot de passe" v-model="password"></b-form-input>
-            </b-form-group>
-            <div class="d-flex justify-content-center mt-5">
-                <b-button class="login-card__form__submitButton" type="submit" variant="submitHomePage">Se connecter
-                </b-button>
-            </div>
-        </b-form>
-    </b-container>
+    <b-form class="login__form" @submit.prevent="loginUser">
+        <b-form-group id="email" label="E-Mail" label-for="email">
+            <b-form-input class="login__form__input" type="email" name="email" id="email"
+                          v-model="email"></b-form-input>
+        </b-form-group>
+        <b-form-group id="password" label="Mot de passe" label-for="password">
+            <b-form-input class="login__form__input" type="password" name="password" id="password"
+                          placeholder="Mot de passe" v-model="password"></b-form-input>
+        </b-form-group>
+        <div class="d-flex justify-content-center mt-5">
+            <b-button class="login__form__submit-button mb-5" type="submit" variant="light-blue">Se connecter
+            </b-button>
+        </div>
+    </b-form>
 </template>
 
 <!--JAVASCRIPT-->
@@ -46,6 +44,7 @@
                 console.log('Je passe par loginUser')
                 // On vérifie que les champs soient remplis
                 if (!this.email || !this.password) {
+                    this.notyf.error("Tous les champs doivent être remplis !")
                     return
                 }
                 console.log(this.email)
@@ -57,6 +56,7 @@
                     })
                     .then((response) => {
                         console.log(response)
+                        this.notyf.success("Connection réussie !")
                         // On enregistre le token, l user id ainsi que le isAdmin dans le localstorage et on l'envoi sur la page du feed
                         localStorage.setItem("token", response.data.accessToken)
                         localStorage.setItem("user.id", response.data.user.id)
@@ -68,7 +68,7 @@
                         console.log('Requête login envoyée')
                     })
                     .catch(error => {
-                        this.notyf.error("Erreur lors de la connexion" + error)
+                        this.notyf.error("Erreur lors de la connexion, vérifiez que vos identifiants soient corrects")
                     })
             }
         }
@@ -77,18 +77,15 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    .login-card {
-        font-family: Montserrat, sans-serif;
+    .login__form {
+        &__input {
+            background-color: white;
+            text-align: center;
+        }
 
-        &__form {
-            &__input {
-                background-color: white;
-                text-align: center;
-            }
-
-            &__submitButton {
-                font-weight: bold;
-            }
+        &__submit-button {
+            font-weight: bold;
+            border: solid 0.5px #3d3d3d;
         }
     }
 </style>

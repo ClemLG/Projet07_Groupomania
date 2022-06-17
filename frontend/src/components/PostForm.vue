@@ -1,20 +1,26 @@
 <!--HTML-->
 <template>
-    <b-container class="form mt-3 p-4">
-        <b-row class="d-flex align-items-center">
-            <b-col class="col d-flex justify-content-center">
-                <b-avatar variant="secondary" text="BV" src="{{avatar}}"></b-avatar>
-            </b-col>
-            <b-col class="col-10">
-                <b-form-input v-model="content" type="text" :placeholder="[['Quoi de neuf, ' + username + ' ?']]"></b-form-input>
-            </b-col>
-            <b-col class="col d-flex justify-content-center align-items-center gap-1">
-                <!--Créer un input form pour l'image-->
-                <a @click=""><i class="fa-solid fa-image"></i></a>
-                <button @click="createPost"><i class="fa-solid fa-paper-plane"></i></button>
-            </b-col>
-        </b-row>
-    </b-container>
+    <div class="bg-primary rounded-3 py-3">
+        <b-container>
+            <b-row>
+                <b-col cols="auto">
+                    <b-avatar variant="secondary" text="BV" :src="avatar"></b-avatar>
+                </b-col>
+                <b-col>
+                    <b-form-input v-model="content" type="text" :placeholder="'Quoi de neuf, ' + username + ' ?'"></b-form-input>
+                </b-col>
+                <b-col cols="auto">
+                    <!--Créer un input form pour l'image-->
+                    <span class="form-icon text-white" @click="">
+                        <i class="fa-solid fa-image"></i>
+                    </span>
+                    <span class="form-icon text-white ms-2" @click="createPost">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </span>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <!--SCRIPT-->
@@ -91,23 +97,7 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    .form {
-        background-color: #4a556a;
-        border-radius: 10px;
-
-        a {
-            cursor: pointer;
-        }
-
-        i {
-            font-size: 1.4rem;
-            color: white;
-        }
-
-        button {
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
+    .form-icon {
+        font-size: 1.5em;
     }
 </style>

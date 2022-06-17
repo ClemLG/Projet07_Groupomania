@@ -36,8 +36,9 @@
                     }
                 })
                     .then(response => {
-                        console.log(response)
                         this.user = response.data
+                        localStorage.setItem('user.username', this.user.username)
+                        localStorage.setItem('user.avatar', this.user.avatar)
                     })
                     .catch(error => {
                         this.notyf.error("impossible de récuperer l'utilisateur" + error)
@@ -64,7 +65,6 @@
                 })
                     .then(response => {
                         this.notyf.success('Profil modifié avec succès !')
-                        localStorage.setItem('user.avatar', this.user.avatar)
                         this.getUser()
                     })
 
@@ -84,13 +84,13 @@
 
                 this.$router.push('/');
             },
-            onDeleteAccount () {
-              let confirmDeleteMsg = confirm( " Êtes vous sur de vouloir supprimer votre compte ?")
-                if(confirmDeleteMsg == true) {
+            onDeleteAccount() {
+                let confirmDeleteMsg = confirm(" Êtes vous sur de vouloir supprimer votre compte ?")
+                if (confirmDeleteMsg == true) {
                     const userId = localStorage.getItem('user.id');
                     axios.delete('http://localhost:5000/api/users/' + userId, {
                         headers: {
-                            'Content-Type' : 'application/json',
+                            'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                         }
                     })
@@ -121,33 +121,65 @@
 <!--HTML-->
 <template>
     <Header/>
-    <b-container class="profile-card d-flex flex-column col-md-4 col-8 align-items-center py-5 gap-5">
-        <b-row>
-            <b-img :src="user.avatar" rounded="circle" alt="Avatar utilisateur"></b-img>
-        </b-row>
-        <div class="mb-3">
-            <input class="form-control" type="file" id="formFile" @change="onFileSelected" ref="fileUpload">
-        </div>
-        <b-row class="col-6 text-center">
-            <label for="username">Nom d'utilisateur</label>
-            <input class="mb-4 text-center" type="text" name="username" id="username" v-model="user.username">
-            <label for="email">E-Mail</label>
-            <input class="mb-4 text-center" disabled="true" type="email" name="email" id="email" v-model="user.email">
-        </b-row>
-        <b-row class="gap-2">
-            <button @click="onEdit">Modifier profil</button>
-            <button @click="onLogout">Se déconnecter</button>
-            <button @click="onDeleteAccount">Supprimer son compte</button>
+    <b-container class="profile-container">
+        <b-row align-h="center" align-v="center">
+            <b-col cols="12" md="10" lg="8" xl="6">
+                <b-card class="profile-container__card my-5">
+
+                    <b-row align-h="center" align-v="center">
+                        <b-col cols="8">
+                            <b-img :src="user.avatar" rounded="circle" alt="Avatar utilisateur" fluid></b-img>
+                        </b-col>
+                    </b-row>
+
+                    <div class="profile-container__card__media-select d-flex justify-content-center my-4">
+                        <input type="file" id="formFile" @change="onFileSelected" ref="fileUpload">
+                    </div>
+
+                    <b-row align-h="center" align-v="center">
+                        <b-col cols="12" md="10" lg="8">
+                            <b-form>
+                                <b-form-group id="username" label="Nom d'utilisateur" label-for="username">
+                                    <b-form-input class="text-center bg-white" name="username" id="username"
+                                                  v-model="user.username"></b-form-input>
+                                </b-form-group>
+
+                                <b-form-group id="email" label="E-Mail" label-for="email">
+                                    <b-form-input class="text-center" disabled="true" type="email" name="email"
+                                                  id="email" v-model="user.email"></b-form-input>
+                                </b-form-group>
+                            </b-form>
+                        </b-col>
+                    </b-row>
+
+                    <b-row align-v="center" align-h="center">
+                        <b-col cols="12" md="10" lg="6">
+                            <div class="d-flex flex-column gap-2 my-5">
+                                <b-button class="bg-white" @click="onEdit">Modifier profil</b-button>
+                                <b-button class="bg-white" @click="onLogout">Se déconnecter</b-button>
+                                <b-button class="btn-danger mt-4" @click="onDeleteAccount">Supprimer son compte
+                                </b-button>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-card>
+            </b-col>
         </b-row>
     </b-container>
 </template>
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    .profile-card {
-        font-family: sans-serif;
-        border-radius: 1rem;
-        background-color: #d7d7d7;
-        margin-top: 4rem;
+    .profile-container {
+        &__card {
+            font-family: sans-serif;
+            border-radius: 0.5rem;
+            background-color: #d7d7d7;
+
+            .btn-danger {
+                background-color: #F08080;
+                font-weight: bolder;
+            }
+        }
     }
 </style>

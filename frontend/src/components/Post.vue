@@ -1,39 +1,71 @@
 <!--HTML-->
 <template>
-    <b-container class="post d-flex">
-        <b-col class="pt-3 pb-1">
-            <b-row class="post__head__infos row d-flex align-items-center mb-4 ">
-                <b-col class="d-flex justify-content-center">
-                    <b-avatar variant="secondary" text="BV" :src="post.user.avatar"></b-avatar>
+    <div class="bg-primary rounded-3 text-white py-3">
+        <b-container>
+            <b-row align-v="center" class="mb-4">
+                <b-col cols="auto">
+
+                    <b-avatar variant="secondary" text="BV" :src="post.user.avatar" alt="avatar de l'utilisateur" aria-label="avatar de l'utilisateur"></b-avatar>
+
                 </b-col>
-                <b-col class="col-11">
-                    <h3>{{post.user.username}}</h3>
+                <b-col>
+
+                    <h3 class="mb-0">{{post.user.username}}</h3>
                     <p>{{ date(post.createdAt) }}</p>
-                </b-col>
-            </b-row>
-            <b-row class="post__content row mb-4">
-                <p class="post__content__text mb-4">{{post.content}}</p>
-                <div>
-                    <b-img class="post__content__img" src="https://picsum.photos/1024/400/?image=41" fluid
-                           alt="Responsive image"></b-img>
-                </div>
-            </b-row>
-            <b-row class="post__action">
-                <b-col class="d-flex align-items-center">
-                    <button @click="likePost"><i class="fa-regular fa-heart"></i></button>
-                    <p class="post__action__like-count pe-4">{{post.likes.length}}</p>
-                    <button @click="toggleCommentSwitch"><i class="fa-regular fa-comment"></i></button>
-                    <p class="post__action__like-count pe-4">{{post.comments.length}}</p>
-                    <button class="post__action__delete" v-if="userId == post.user.id || isAdmin == 'true'"
-                            v-on:click="deletePost(post.id)" aria-label="Supprimer le message"><i
-                            class="fa-regular fa-trash-can"></i></button>
+
                 </b-col>
             </b-row>
             <b-row>
-                <Comments v-if="commentSwitch" :comments="post.comments" :post="post"/>
+                <b-col>
+
+                    <p class="post-content">{{post.content}}</p>
+
+                </b-col>
             </b-row>
-        </b-col>
-    </b-container>
+            <b-row class="mt-2">
+                <b-col>
+
+                    <b-img src="https://picsum.photos/1024/400/?image=41" alt="Responsive image" fluid></b-img>
+
+                </b-col>
+            </b-row>
+            <b-row class="mt-3">
+                <b-col>
+                    <div class="d-flex">
+                        <div @click="likePost" class="d-flex me-3">
+                            <span>
+                                <i class="fa-regular fa-heart"></i>
+                            </span>
+                            <p class="ms-1">{{post.likes.length}}</p>
+                        </div>
+
+                        <div @click="toggleCommentSwitch" class="d-flex me-3">
+                            <span>
+                                <i class="fa-regular fa-comment"></i>
+                            </span>
+                            <p class="ms-1">{{post.comments.length}}</p>
+                        </div>
+
+                        <div v-if="userId == post.user.id || isAdmin == 'true'" @click="deletePost(post.id)" class="d-flex me-3">
+                            <span>
+                                <i class="fa-regular fa-trash-can"></i>
+                            </span>
+                        </div>
+                    </div>
+                </b-col>
+            </b-row>
+            <b-row class="mb-2">
+                <b-col>
+                    <div class="border-bottom border-secondary"></div>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <Comments v-if="commentSwitch" :comments="post.comments" :post="post"/>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <!--SCRIPT-->
@@ -124,44 +156,10 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    .post {
-        margin-bottom: 64px;
-        background-color: #4a556a;
-        color: #ffffff;
-        border-radius: 10px;
-
-        &__content {
-
-            &__text {
-                font-size: 1.5rem;
-            }
-
-            & __img {
-
-            }
-        }
-
-        &__action {
-            &__like-count {
-                font-size: 1.2rem;
-                position: relative;
-                bottom: 3px;
-            }
-        }
-
-        i {
-            color: #ffffff;
-            font-size: 1.4rem;
-        }
-
-        button {
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
-
-        h3 {
-            margin-bottom: -0.2rem;
-        }
+    .post-content {
+        font-size: 1.5rem;
+    }
+    i {
+        cursor: pointer;
     }
 </style>

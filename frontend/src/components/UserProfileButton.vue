@@ -1,10 +1,10 @@
 <!--HTML-->
 <template>
     <div class="profile-button">
-        <button @click="onclick">
+        <b-button @click="onclick" class="bg-white border-secondary">
             <b-avatar variant="secondary" text="BV" class="me-2" :src="avatar"></b-avatar>
             <span>{{ username }}</span>
-        </button>
+        </b-button>
     </div>
 </template>
 
@@ -33,7 +33,5 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
-    button {
-        border: 1px solid #d7d7d7;
-    }
+
 </style>

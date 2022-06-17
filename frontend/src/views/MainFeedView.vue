@@ -62,27 +62,16 @@
     <div class="main">
         <b-container>
             <b-row>
-                <b-col class="main__col mt-5 rounded-3 border border-secondary">
+                <b-col>
 
-                    <PostForm/>
-                    <h1>Publications récentes</h1>
-                    <Post v-for="postItem in postList" :post="postItem" @updated="getPosts"/>
+                    <div class="rounded-3 border border-secondary bg-white px-5 py-3 mt-4">
+                        <PostForm/>
+                        <h1 class="mt-5 mb-3">Publications récentes</h1>
+                        <Post v-for="(postItem, index) in postList" :post="postItem" :class="{ 'mb-4': index < postList.length - 1 }" @updated="getPosts"/>
+                    </div>
+
                 </b-col>
             </b-row>
         </b-container>
     </div>
 </template>
-
-<!--STYLE-->
-<style lang="scss" scoped>
-    .main {
-        h1 {
-            margin: 64px 0;
-        }
-
-        &__col {
-            background-color: #fdfeff;
-            padding: 0 96px;
-        }
-    }
-</style>

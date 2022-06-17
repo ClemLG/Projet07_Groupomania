@@ -30,13 +30,13 @@
 
 <!--HTML-->
 <template>
-    <div class="background"></div>
+    <section class="background"></section>
     <b-container class="home__container">
         <b-row align-h="center" align-v="center">
             <b-col cols="12" md="10" lg="8" xl="6">
                 <header class="d-flex flex-column align-items-center mb-4">
-                    <a @click="reloadPage">
-                        <b-img src="./public/logo/icon-left-font-monochrome-white.svg" alt="logo groupomania" fluid/>
+                    <a @click="reloadPage" aria-label="rechargement de la page">
+                        <b-img src="./public/logo/icon-left-font-monochrome-white.svg" alt="logo de groupomania" aria-label="logo de groupomania" fluid/>
                     </a>
                 </header>
                 <b-card class="home__container__card">
@@ -52,22 +52,22 @@
 <!--STYLE-->
 <style lang="scss">
     .background {
-         position: fixed;
-         top: 0;
-         right: 0;
-         bottom: 0;
-         left: 0;
-         background-color: #4a556a;
-         z-index: -1;
-     }
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #4a556a;
+        z-index: -1;
+    }
 
     .home__container {
         &__card {
-            background-color: #f2f3f5!important;
+            background-color: #f2f3f5 !important;
         }
     }
 
     .home__container, .home__container > .row {
-        min-height: 100vh;
+        min-height: 80vh;
     }
 </style>

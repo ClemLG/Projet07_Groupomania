@@ -4,8 +4,8 @@
         <b-input-group>
             <b-form-input placeholder="Dites quelque chose à propos de ce post..." v-model="contentComment"/>
             <b-input-group-append>
-                <b-button variant="secondary" @click="createComment">
-                    <i class="fa-solid fa-share" aria-label="icone d'envoi"></i>
+                <b-button variant="secondary" @click="createComment" aria-role="bouton de creation de commentaire">
+                    <i class="fa-solid fa-share" aria-label="icone d'envoi de commentaire"></i>
                 </b-button>
             </b-input-group-append>
         </b-input-group>
@@ -16,14 +16,14 @@
             <b-row align-v="center">
                 <b-col>
                     <div class="d-flex align-items-center">
-                        <b-avatar variant="secondary" text="BV"></b-avatar>
+                        <b-avatar variant="secondary" text="BV" :src="comment.user.avatar" alt="avatar de l'utilisateur"></b-avatar>
                         <span class="mx-2">{{ comment.user.username }}</span>
                         <p>{{ date(comment.createdAt) }}</p>
                     </div>
                 </b-col>
                 <b-col cols="auto">
-                    <span class="delete-icon" v-if="userId == comment.user.id || isAdmin == 'true'" @click="deleteComment(comment.id)">
-                        <i class="fa-solid fa-circle-xmark"></i>
+                    <span class="delete-icon" v-if="userId == comment.user.id || isAdmin == 'true'" @click="deleteComment(comment.id)" aria-label="suppression de commentaire">
+                        <i class="fa-solid fa-circle-xmark" aria-label="icone de suppression de commentaire"></i>
                     </span>
                 </b-col>
             </b-row>
@@ -52,6 +52,10 @@
             },
             post: {
                 type: Object,
+                required: true
+            },
+            avatar: {
+                type: String,
                 required: true
             }
         },
@@ -119,4 +123,9 @@
 
 <!--CSS-->
 <style lang="scss" scoped>
+    @import "../../src/style/style";
+    .delete-icon {
+        color: #8da2c0;
+        cursor: pointer;
+    }
 </style>

@@ -1,9 +1,9 @@
 <!--HTML & JAVASCRIPT-->
 <template>
     <div class="switch">
-        <a @click="$emit('switch', 'register')" :class="{ active: currentView === 'register' }">INSCRIPTION</a>
+        <a @click="$emit('switch', 'register')" :class="{ active: currentView === 'register' }" aria-label="switch vers inscription">INSCRIPTION</a>
         <p class="mx-2">|</p>
-        <a @click="$emit('switch', 'login')" :class="{ active: currentView === 'login' }">CONNEXION</a>
+        <a @click="$emit('switch', 'login')" :class="{ active: currentView === 'login' }" aria-label="switch vers connexion">CONNEXION</a>
     </div>
 </template>
 

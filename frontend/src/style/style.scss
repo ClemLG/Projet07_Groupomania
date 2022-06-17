@@ -3,9 +3,11 @@ $body-bg: #f3f3f3;
 $theme-colors: (
         "primary": #4a556a,
         "secondary": #d7d7d7,
+        "danger": #F08080,
         "light-blue": #8da2c0,
 );
 
+//BREAKPOINT MOBILE-S
 @mixin mobile-s {
   @media screen and (max-width: 576px){
     @content;

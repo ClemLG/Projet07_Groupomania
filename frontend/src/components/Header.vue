@@ -6,16 +6,17 @@
             <b-row align-v="center" no-gutters>
                 <b-col class="p-0">
 
-                    <div class="d-flex justify-content-center justify-content-md-start">
-                        <img src="/logo/icon-left-font-monochrome-black.svg" alt="le logo de groupomania" class="logo" @click="reloadPage">
-                    </div>
+                    <header class="d-flex justify-content-center justify-content-md-start">
+                        <b-img src="/logo/icon-left-font-monochrome-black.svg" alt="le logo de groupomania" aria-label="le logo de groupomania" class="logo" @click="goFeedPage"></b-img>
+                    </header>
 
                 </b-col>
                 <b-col class="p-0">
 
-                    <div class="d-flex justify-content-center justify-content-md-end">
+                    <nav class="d-flex justify-content-center justify-content-md-end">
+                        <!--Slot ou le bouton profile va être-->
                         <slot></slot>
-                    </div>
+                    </nav>
 
                 </b-col>
             </b-row>
@@ -27,8 +28,8 @@
 <script>
     export default {
         methods: {
-            reloadPage() {
-                this.$router.go()
+            goFeedPage() {
+                this.$router.push("/feed")
             }
         }
     }

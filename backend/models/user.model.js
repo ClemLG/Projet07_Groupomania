@@ -41,13 +41,13 @@ const User = sequelize.define("user", {
 
 
 // Associations
-User.hasMany(Post)
-User.hasMany(Comment)
-User.hasMany(Like)
+User.hasMany(Post, {onDelete: 'cascade'})
+User.hasMany(Comment, {onDelete: 'cascade'})
+User.hasMany(Like, {onDelete: 'cascade'})
 
 Post.belongsTo(User)
-Post.hasMany(Comment)
-Post.hasMany(Like)
+Post.hasMany(Comment, {onDelete: 'cascade'})
+Post.hasMany(Like, {onDelete: 'cascade'})
 
 Comment.belongsTo(User)
 Comment.belongsTo(Post)

@@ -1,8 +1,8 @@
 <!--HTML-->
 <template>
     <div class="profile-button">
-        <b-button @click="onclick" class="bg-white border-secondary">
-            <b-avatar variant="secondary" text="BV" class="me-2" :src="avatar"></b-avatar>
+        <b-button @click="onclick" class="bg-white border-secondary" aria-role="Bouton redirigeant vers la page profile">
+            <b-avatar variant="secondary" text="BV" class="me-2" :src="avatar" alt="avatar de l'utilisateur" aria-label="avatar de l'utilisateur"></b-avatar>
             <span>{{ username }}</span>
         </b-button>
     </div>

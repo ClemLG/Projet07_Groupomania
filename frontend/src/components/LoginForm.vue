@@ -85,7 +85,7 @@
 
         &__submit-button {
             font-weight: bold;
-            border: solid 0.5px #3d3d3d;
+            border: solid 0.5px ;
         }
     }
 </style>

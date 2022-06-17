@@ -85,30 +85,6 @@ exports.getOnePost = (req, res) => {
         })
 }
 
-// Modification de post
-exports.updatePost = (req, res) => {
-    console.log("Je passe dans updatePost");
-    console.log("id du bearerToken" + req.bearerToken.id)
-    // On récupère le post qu'on souhaite modifier
-    Post.findOne({where: {id: req.params.id}})
-        .then(post => {
-            // Avant de modifier, on vérifie que le post appartient à l'utilisateur
-            if (post.userId === req.bearerToken.id) {
-                // Si on trouve un nouveau fichier image, on modifie avec la nouvelle imageUrl
-                const postObject = req.file ? {
-                    ...req.body.post,
-                    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                    // Sinon on prends le corps de la requete et on modifie l'id de l'objet qu'on vient de créer pour correspondre à l'id des parametres de requete
-                } : {...req.body}
-                return Post.update({...postObject}, {where: {id: req.params.id}})
-                    .then(() => res.status(200).json({message: 'publication à jour !'}))
-            } else {
-                return res.status(403).json({message : "Vous n'avez pas les droits nécéssaires !"})
-            }
-        })
-        .catch(error => res.status(400).json({error}))
-}
-
 // Suppression de post
 exports.deletePost = async (req, res) => {
     console.log("Je passe dans deletePost");

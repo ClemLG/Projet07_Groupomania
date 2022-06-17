@@ -1,26 +1,26 @@
 <!--HTML-->
 <template>
-    <div class="bg-primary rounded-3 py-3">
+    <section class="bg-primary rounded-3 py-3">
         <b-container>
             <b-row>
                 <b-col cols="auto">
-                    <b-avatar variant="secondary" text="BV" :src="avatar"></b-avatar>
+                    <b-avatar variant="secondary" text="BV" :src="avatar" alt="avatar de l'utilisateur" aria-label="avatar de l'utilisateur"></b-avatar>
                 </b-col>
                 <b-col>
-                    <b-form-input v-model="content" type="text" :placeholder="'Quoi de neuf, ' + username + ' ?'"></b-form-input>
+                    <b-form-input class="bg-white" v-model="content" type="text" :placeholder="'Quoi de neuf, ' + username + ' ?'"></b-form-input>
                 </b-col>
                 <b-col cols="auto">
                     <!--Créer un input form pour l'image-->
                     <span class="form-icon text-white" @click="">
-                        <i class="fa-solid fa-image"></i>
+                        <i class="fa-solid fa-image" aria-label="icone d'upload d'image"></i>
                     </span>
                     <span class="form-icon text-white ms-2" @click="createPost">
-                        <i class="fa-solid fa-paper-plane"></i>
+                        <i class="fa-solid fa-paper-plane" aria-label="icone de soumission de post"></i>
                     </span>
                 </b-col>
             </b-row>
         </b-container>
-    </div>
+    </section>
 </template>
 
 <!--SCRIPT-->

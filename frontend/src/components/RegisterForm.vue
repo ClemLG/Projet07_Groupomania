@@ -18,7 +18,7 @@
                           placeholder="Confirmation mot de passe " v-model="confirm"></b-form-input>
         </b-form-group>
         <div class="d-flex justify-content-center my-4">
-            <b-button class="register__form__submit-button" type="submit" variant="light-blue">
+            <b-button class="register__form__submit-button" type="submit" variant="light-blue" aria-role="soumission du formulaire d'inscription">
                 S'inscrire
             </b-button>
         </div>

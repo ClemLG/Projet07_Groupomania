@@ -1,6 +1,6 @@
 <!--HTML-->
 <template>
-    <div class="bg-primary rounded-3 text-white py-3">
+    <article class="bg-primary rounded-3 text-white py-3">
         <b-container>
             <b-row align-v="center" class="mb-4">
                 <b-col cols="auto">
@@ -25,7 +25,7 @@
             <b-row class="mt-2">
                 <b-col>
 
-                    <b-img src="https://picsum.photos/1024/400/?image=41" alt="Responsive image" fluid></b-img>
+                    <b-img src="https://picsum.photos/1024/400/?image=41" alt="Image du Post" aria-label="Image du Post" fluid></b-img>
 
                 </b-col>
             </b-row>
@@ -65,7 +65,7 @@
                 </b-col>
             </b-row>
         </b-container>
-    </div>
+    </article>
 </template>
 
 <!--SCRIPT-->

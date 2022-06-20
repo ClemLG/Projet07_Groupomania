@@ -68,6 +68,6 @@
     }
 
     .home__container, .home__container > .row {
-        min-height: 80vh;
+        min-height: 90vh;
     }
 </style>

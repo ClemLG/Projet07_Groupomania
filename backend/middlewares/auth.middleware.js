@@ -17,9 +17,9 @@ module.exports = (req, res, next) => {
         console.log("Test2")
         // Le token décodé devient un objet Javascript, on récupère donc le userId dedans
         const userId = decodedToken.id
-        req.auth = { userId }
+        req.auth = {userId}
         // Si il y a un userId dans la requete, on verifie qu'il correspond bien à celui du token
-        if(req.body.id && req.body.id !== userId) {
+        if (req.body.id && req.body.id !== userId) {
             throw 'Invalid User ID !'
         } else {
             //Si ok, on appelle 'next' car il s'agit d'un middleware donc on peut passer la requete au prochain middleware
@@ -27,6 +27,6 @@ module.exports = (req, res, next) => {
             next()
         }
     } catch (error) {
-        res.status(401).json({ error: error | 'Requête non authentifiée !'})
+        res.status(401).json({error: error | 'Requête non authentifiée !'})
     }
 }

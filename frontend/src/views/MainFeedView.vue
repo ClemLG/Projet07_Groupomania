@@ -64,7 +64,7 @@
             <b-row>
                 <b-col>
 
-                    <section class="rounded-3 border border-secondary bg-white px-5 py-3 mt-4">
+                    <section class="rounded-3 border border-secondary bg-white px-4 py-3 mt-4">
                         <PostForm/>
                         <h1 class="mt-5 mb-3">Publications récentes</h1>
                         <Post v-for="(postItem, index) in postList" :post="postItem" :class="{ 'mb-4': index < postList.length - 1 }" @updated="getPosts"/>

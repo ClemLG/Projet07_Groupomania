@@ -20,15 +20,19 @@ exports.createPost = (req, res) => {
     const userId = req.bearerToken.id;
     console.log('user id du post est: ' + userId)
 
-    if (!req.file) {
-        return Post.create({
-            userId: userId,
-            content: req.body.content,/*
-            imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`*/
-        })
-            .then((post) => res.status(201).json({message: "Post crée !"}))
-            .catch((err) => res.status(500).json(err))
+    console.log(req.file)
+
+    const payload = {
+        userId: userId,
+        content: req.body.content
     }
+    if (req.file) {
+        payload.imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    }
+
+    return Post.create(payload)
+        .then((post) => res.status(201).json({message: "Post crée !"}))
+        .catch((err) => res.status(500).json(err))
 }
 
 // Récupération de tous les posts
@@ -37,15 +41,14 @@ exports.getAllPosts = (req, res) => {
     // On utilise la methode "findAll" de notre modele pour permettre la recuperation de tous les posts
     Post.findAll({
         // On précise qu'on veut récupérer les posts de plus récent au plus ancien
-        order: [[Comment, 'createdAt', 'DESC']],
+        order: [['createdAt', 'DESC'], [Comment, 'createdAt', 'DESC']],
         include: [
             {
                 model: User
             },
             {
                 model: Comment,
-                include: [User],
-                order: [['createdAt', 'DESC']]
+                include: [User]
             },
             {
                 model: Like
@@ -63,7 +66,8 @@ exports.getAllPosts = (req, res) => {
 
 // Récupération d'un post
 exports.getOnePost = (req, res) => {
-    Post.findOne({where: {id: req.params.id}, include: [
+    Post.findOne({
+        where: {id: req.params.id}, include: [
             {
                 model: User
             },
@@ -75,7 +79,8 @@ exports.getOnePost = (req, res) => {
             {
                 model: Like
             },
-        ]})
+        ]
+    })
         .then(post => {
             return res.status(200).json(post)
         })
@@ -126,7 +131,7 @@ exports.likePost = (req, res) => {
     // On prend l'id du post
     let postId = req.params.id
 
-    Like.findAll({ where: {userId, postId} })
+    Like.findAll({where: {userId, postId}})
         .then(likes => {
             if (likes.length) {
                 throw 'Post déjà liké'
@@ -148,13 +153,13 @@ exports.unlikePost = (req, res) => {
     // On prend l'id du post
     let postId = req.params.id
 
-    Like.findAll({ where: {userId, postId} })
+    Like.findAll({where: {userId, postId}})
         .then(likes => {
             if (!likes.length) {
                 throw 'Post non liké'
             }
             const likesIds = likes.map(like => like.id)
-            Like.destroy({ where: { id: likesIds } })
+            Like.destroy({where: {id: likesIds}})
                 .then((like) => res.status(201).json({message: "Like annulé !"}))
         })
         .catch((error) => res.status(400).json({error}))

@@ -7,6 +7,13 @@ $theme-colors: (
         "light-blue": #8da2c0,
 );
 
+// CUBIC BEZIER
+$easings: (
+        ease-in: cubic-bezier(0.11, 0, 0.5, 0),
+        ease-out: cubic-bezier(0.5, 1, 0.89, 1),
+        ease-in-out: cubic-bezier(0.45, 0, 0.55, 1),
+);
+
 //BREAKPOINT MOBILE-S
 @mixin mobile-s {
   @media screen and (max-width: 576px){

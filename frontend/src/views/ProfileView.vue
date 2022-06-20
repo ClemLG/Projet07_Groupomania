@@ -129,9 +129,11 @@
                 <b-card class="profile-container__card my-5">
 
                     <b-row align-h="center" align-v="center">
-                        <b-col cols="8">
+                        <b-col cols="auto">
 
-                            <b-img :src="user.avatar" rounded="circle" alt="Avatar utilisateur" aria-label="avatar de l'utilisateur" fluid></b-img>
+                            <b-avatar :src="user.avatar && user.avatar !== 'null' ? user.avatar : null"
+                                      :text="(user.username ? user.username.charAt(0) : '')" size="8rem" alt="Avatar utilisateur"
+                                      aria-label="avatar de l'utilisateur"></b-avatar>
 
                         </b-col>
                     </b-row>
@@ -162,9 +164,15 @@
                         <b-col cols="12" md="6">
 
                             <div class="profile-container__card__btn-section d-flex flex-column gap-2 my-5">
-                                <b-button class="bg-light-blue" @click="onEdit" aria-role="bouton de modification de profil">Modifier profil</b-button>
-                                <b-button class="bg-light-blue" @click="onLogout" aria-role="bouton de déconnexion de profil">Se déconnecter</b-button>
-                                <b-button class="bg-danger mt-4" @click="onDeleteAccount" aria-role="bouton de suppression de compte">Supprimer son compte</b-button>
+                                <b-button class="bg-light-blue" @click="onEdit"
+                                          aria-role="bouton de modification de profil">Modifier profil
+                                </b-button>
+                                <b-button class="bg-light-blue" @click="onLogout"
+                                          aria-role="bouton de déconnexion de profil">Se déconnecter
+                                </b-button>
+                                <b-button class="bg-danger mt-4" @click="onDeleteAccount"
+                                          aria-role="bouton de suppression de compte">Supprimer son compte
+                                </b-button>
                             </div>
 
                         </b-col>
@@ -180,17 +188,19 @@
 <!--STYLE-->
 <style lang="scss" scoped>
     @import "../../src/style/style";
+
     .profile-container {
         &__card {
             border-radius: 0.5rem;
 
             &__form input {
-                border:1px solid $secondary
+                border: 1px solid $secondary
             }
 
             &__btn-section button {
                 transition: all .2ms ease-in-out;
-                &:hover{
+
+                &:hover {
                     opacity: 0.8;
                 }
             }

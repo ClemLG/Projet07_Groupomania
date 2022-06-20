@@ -23,6 +23,7 @@
     @import "../../src/style/style";
     .switch {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         font-size: 1.4rem;
 

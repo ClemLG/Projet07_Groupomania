@@ -22,10 +22,10 @@
 
                 </b-col>
             </b-row>
-            <b-row class="mt-2">
+            <b-row class="mt-2" v-if="post.imageUrl">
                 <b-col>
 
-                    <b-img src="https://picsum.photos/1024/400/?image=41" alt="Image du Post" aria-label="Image du Post" fluid></b-img>
+                    <b-img :src="post.imageUrl" alt="Image du Post" aria-label="Image du Post" fluid></b-img>
 
                 </b-col>
             </b-row>
@@ -33,8 +33,9 @@
                 <b-col>
                     <div class="d-flex">
                         <div @click="likePost" class="d-flex me-3">
-                            <span>
+                            <span class="like-button">
                                 <i class="fa-regular fa-heart"></i>
+                                <i class="fa-solid fa-heart"></i>
                             </span>
                             <p class="ms-1">{{post.likes.length}}</p>
                         </div>
@@ -156,9 +157,54 @@
 
 <!--STYLE-->
 <style lang="scss" scoped>
+    @import "../../src/style/style";
     .post-content {
         font-size: 1.5rem;
     }
+
+    .like-button {
+        position: relative;
+
+        &:hover {
+            transition: ease-out;
+            .fa-regular {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            .fa-solid {
+                opacity: 1;
+                transform: scale(1);
+                -webkit-clip-path: inset(0 0 0 0);
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        i {
+            -webkit-transition: opacity .35s, -webkit-clip-path .35s, -webkit-transform .35s;
+            transition: opacity .35s, -webkit-clip-path .35s, -webkit-transform .35s;
+            transition: clip-path 0.35s, opacity 0.35s, transform 0.35s;
+            transition: clip-path .35s, opacity .35s, transform .35s, -webkit-clip-path .35s, -webkit-transform .35s;
+            -webkit-transition-timing-function: cubic-bezier(0.11, 0, 0.5, 0);
+            transition-timing-function: map-get($easings, ease-in);
+        }
+
+        .fa-solid {
+            background: linear-gradient(0deg, hsl(218 44% 100%), hsl(218 66% 60%));
+            -webkit-background-clip: text;
+            background-clip: text;
+            position: absolute;
+            right: 0px;
+            top: 4px;
+            color: transparent;
+            opacity: 0;
+            -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+            -webkit-clip-path: inset(100% 0 0 0);
+            clip-path: inset(100% 0 0 0);
+        }
+    }
+
     i {
         cursor: pointer;
     }

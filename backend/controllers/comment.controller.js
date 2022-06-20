@@ -17,8 +17,8 @@ exports.createComment = (req, res) => {
         content: req.body.content,
         postId: req.params.postId
     })
-        .then(() => res.status(201).json({ message: "commentaire crée!"}))
-        .catch(error => res.status(400).json({ error }))
+        .then(() => res.status(201).json({message: "commentaire crée!"}))
+        .catch(error => res.status(400).json({error}))
     console.log(req.body.content)
 }
 

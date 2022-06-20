@@ -2,7 +2,8 @@
 <template>
     <b-form class="mb-2">
         <b-input-group>
-            <b-form-input placeholder="Dites quelque chose à propos de ce post..." v-model="contentComment"/>
+            <b-form-input class="bg-white" placeholder="Dites quelque chose à propos de ce post..."
+                          v-model="contentComment"/>
             <b-input-group-append>
                 <b-button variant="secondary" @click="createComment" aria-role="bouton de creation de commentaire">
                     <i class="fa-solid fa-share" aria-label="icone d'envoi de commentaire"></i>
@@ -11,24 +12,34 @@
         </b-input-group>
     </b-form>
 
-    <div class="bg-white border border-secondary rounded-3 p-2 text-black" v-for="(comment, index) in comments" :class="{ 'mb-2': index < comments.length - 1 }">
+    <div class="bg-white border border-secondary rounded-3 p-2 text-black" v-for="(comment, index) in comments"
+         :class="{ 'mb-2': index < comments.length - 1 }">
         <b-container fluid class="p-0">
             <b-row align-v="center">
                 <b-col>
-                    <div class="d-flex align-items-center">
-                        <b-avatar variant="secondary" text="BV" :src="comment.user.avatar" alt="avatar de l'utilisateur"></b-avatar>
+
+                    <div class="user-infos d-flex align-items-center">
+                        <b-avatar variant="secondary"
+                                  :src="comment.user.avatar && comment.user.avatar !== 'null' ? comment.user.avatar : null"
+                                  :text="comment.user.username.charAt(0)" alt="avatar de l'utilisateur"></b-avatar>
                         <span class="mx-2">{{ comment.user.username }}</span>
                         <p>{{ date(comment.createdAt) }}</p>
                     </div>
+
                 </b-col>
                 <b-col cols="auto">
-                    <span class="delete-icon" v-if="userId == comment.user.id || isAdmin == 'true'" @click="deleteComment(comment.id)" aria-label="suppression de commentaire">
+
+                    <span class="delete-icon" v-if="userId == comment.user.id || isAdmin == 'true'"
+                          @click="deleteComment(comment.id)" aria-label="suppression de commentaire">
                         <i class="fa-solid fa-circle-xmark" aria-label="icone de suppression de commentaire"></i>
                     </span>
+
                 </b-col>
             </b-row>
             <b-row>
+
                 <p>{{ comment.content }}</p>
+
             </b-row>
         </b-container>
     </div>
@@ -124,8 +135,21 @@
 <!--CSS-->
 <style lang="scss" scoped>
     @import "../../src/style/style";
+
+    .user-infos {
+        @include mobile-s {
+            flex-wrap: wrap;
+
+            p {
+                font-size: 0.8rem;
+            }
+
+        }
+    }
+
     .delete-icon {
         color: #8da2c0;
         cursor: pointer;
     }
+
 </style>

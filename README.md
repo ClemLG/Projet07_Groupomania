@@ -1,8 +1,5 @@
 # Technologies Utilisées
-##Front
-▹ HTML, ▹ SASS, ▹BOOTSTRAP, ▹VUE CLI
-##Back
-▹ NODE.JS, ▹EXPRESS, ▹SEQUELIZE
+▹ HTML, ▹ SASS, ▹BOOTSTRAP, ▹VUE CLI, ▹ NODE.JS, ▹EXPRESS, ▹SEQUELIZE
 # Pré-requis
 
 Node doit être installé (v14.17)

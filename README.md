@@ -1,3 +1,8 @@
+# Technologies Utilisées
+##Front
+▹ HTML, ▹ SASS, ▹BOOTSTRAP, ▹VUE CLI
+##Back
+▹ NODE.JS, ▹EXPRESS, ▹SEQUELIZE
 # Pré-requis
 
 Node doit être installé (v14.17)
@@ -13,6 +18,7 @@ npm install
 ## Lancement du serveur
 
 ```sh
+\cd frontend
 npm run dev
 ```
 
@@ -30,6 +36,7 @@ npm install
 ## Lancement du serveur
 
 ```sh
+\cd backend
 nodemon server
 ```
 
@@ -37,4 +44,4 @@ L'API sera disponible sur http://localhost:5000
 
 #Base de donnée MYSQL
 
-Importer le fichier groupomania.sql
+Importer le fichier "LeGoues_Clement_1_bdd_042022.sql"

@@ -5,7 +5,8 @@
             <b-row align-v="center" class="mb-4">
                 <b-col cols="auto">
 
-                    <b-avatar variant="secondary" text="BV" :src="post.user.avatar" alt="avatar de l'utilisateur" aria-label="avatar de l'utilisateur"></b-avatar>
+                    <b-avatar variant="secondary" text="BV" :src="post.user.avatar" alt="avatar de l'utilisateur"
+                              aria-label="avatar de l'utilisateur"></b-avatar>
 
                 </b-col>
                 <b-col>
@@ -47,7 +48,8 @@
                             <p class="ms-1">{{post.comments.length}}</p>
                         </div>
 
-                        <div v-if="userId == post.user.id || isAdmin == 'true'" @click="deletePost(post.id)" class="d-flex me-3">
+                        <div v-if="userId == post.user.id || isAdmin == 'true'" @click="deletePost(post.id)"
+                             class="d-flex me-3">
                             <span>
                                 <i class="fa-regular fa-trash-can"></i>
                             </span>
@@ -158,6 +160,7 @@
 <!--STYLE-->
 <style lang="scss" scoped>
     @import "../../src/style/style";
+
     .post-content {
         font-size: 1.5rem;
     }
@@ -167,6 +170,7 @@
 
         &:hover {
             transition: ease-out;
+
             .fa-regular {
                 opacity: 0;
                 transform: scale(0.8);
